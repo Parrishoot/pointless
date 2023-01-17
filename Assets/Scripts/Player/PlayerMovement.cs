@@ -19,22 +19,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetAxisRaw("Horizontal") > 0.1)
+        // TODO: (Maybe) move this to InputManager instead
+        if(!MinigameManager.GetInstance().InProgress())
         {
-            rigidbody.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime, rigidbody.velocity.y);
-        }
-        else if(Input.GetAxisRaw("Horizontal") < -0.1)
-        {
-            rigidbody.velocity = new Vector2(-movementSpeed * Time.fixedDeltaTime, rigidbody.velocity.y);
-        }
-        else
-        {
-            rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
-        }
+            if (Input.GetAxisRaw("Horizontal") > 0.1)
+            {
+                rigidbody.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime, rigidbody.velocity.y);
+            }
+            else if (Input.GetAxisRaw("Horizontal") < -0.1)
+            {
+                rigidbody.velocity = new Vector2(-movementSpeed * Time.fixedDeltaTime, rigidbody.velocity.y);
+            }
+            else
+            {
+                rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
+            }
 
-        if(InputManager.GetInstance().GetKeyDown(InputManager.ACTION.JUMP, true) && groundChecker.isGrounded())
-        {
-            rigidbody.AddForce(new Vector2(0, jumpForce));
+            if (InputManager.GetInstance().GetKeyDown(InputManager.ACTION.JUMP, true) && groundChecker.IsGrounded())
+            {
+                rigidbody.AddForce(new Vector2(0, jumpForce));
+            }
         }
     }
 }

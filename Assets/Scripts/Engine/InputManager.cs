@@ -21,7 +21,8 @@ public class InputManager : Singleton<InputManager>
         MOVE_LEFT,
         MOVE_RIGHT,
         JUMP,
-        PAUSE
+        PAUSE,
+        INTERACT
     }
 
     // Start is called before the first frame update
@@ -46,12 +47,6 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    private void FixedUpdate()
-    {
-        fixedInputsDown.Clear();
-        fixedInputsUp.Clear();
-    }
-
     public bool GetKeyDown(ACTION action, bool fixedUpdate = false)
     {
         InputAction inputAction = inputKeys[action];
@@ -64,7 +59,15 @@ public class InputManager : Singleton<InputManager>
             }
             else
             {
-                return fixedInputsDown.Contains(action);
+                if(fixedInputsDown.Contains(action))
+                {
+                    fixedInputsDown.Remove(action);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         else
@@ -98,7 +101,15 @@ public class InputManager : Singleton<InputManager>
             }
             else
             {
-                return fixedInputsDown.Contains(action);
+                if (fixedInputsUp.Contains(action))
+                {
+                    fixedInputsUp.Remove(action);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         else

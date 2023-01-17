@@ -5,11 +5,11 @@ using UnityEngine;
 public class GroundChecker : MonoBehaviour
 {
 
-    private bool onGround;
+    private bool onGround = true;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name == "Wall_B")
+        if (collision.gameObject.name == "Wall_B")
         {
             onGround = true;
         }
@@ -23,7 +23,7 @@ public class GroundChecker : MonoBehaviour
         }
     }
 
-    public bool isGrounded()
+    public bool IsGrounded()
     {
         return onGround;
     }
