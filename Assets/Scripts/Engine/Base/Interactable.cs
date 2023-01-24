@@ -5,13 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public abstract class Interactable : MonoBehaviour
 {
+
     public abstract void Interact();
+
+    private DayManager dayManager;
 
     private bool canInteract = false;
 
+    void Start() {
+        dayManager = DayManager.GetInstance();
+    }
+
     private void Update()
     {
-        if(InputManager.GetInstance().GetKeyDown(InputManager.ACTION.INTERACT) && canInteract)
+        if(InputManager.GetInstance().GetKeyDown(InputManager.ACTION.INTERACT) && canInteract && !dayManager.IsWakingUp())
         {
             Interact();
         }   

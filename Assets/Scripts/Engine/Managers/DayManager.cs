@@ -22,14 +22,18 @@ public class DayManager : Singleton<DayManager>
 
     private WakeUpController wakeUpController;
 
-    private int day;
+    private DayMetaManager dayMetaManager;
+
+    private PlayerMovement playerMovement;
+
+    private int day = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        timeLeftInDay = dayLength;
-        state = STATE.RUNNING;
-        dayUIManager.DisableWakeUpText();
+        dayMetaManager = DayMetaManager.GetInstance();
+        playerMovement = PlayerMovement.GetInstance();
+        InitializeDay();
     }
 
     // Update is called once per frame
@@ -41,52 +45,58 @@ public class DayManager : Singleton<DayManager>
                 timeLeftInDay -= Time.deltaTime;
                 if (timeLeftInDay <= 0)
                 {
-                    Debug.Log("Waking up!");
-
-                    day++;
-                    dayUIManager.SetDayText(day);
-                    wakeUpController = new WakeUpController("WAKEUP");
-                    dayUIManager.EnableWakeUpText("WAKEUP");
-                    state = STATE.WAKING_UP;
+                    InitializeNewDay();
                 }
                 break;
 
             case STATE.WAKING_UP:
                 if (InputManager.GetInstance().SpecificLetterKeyPressedThisFrame(wakeUpController.GetCurrentCharacter()))
                 {
-                    Debug.Log("Correct!");
                     dayUIManager.SlideTextLeft();
                     wakeUpController.Progress();
                 }
                 else if(InputManager.GetInstance().AnyKeyPressedThisFrame())
                 {
-                    Debug.Log("Incorrect!");
-                    Debug.Log(wakeUpController.GetCurrentCharacter().ToLower());
                     dayUIManager.ResetWakeUpText();
                     wakeUpController.Reset();
                 }
 
                 if(wakeUpController.IsFinished())
                 {
-                    dayUIManager.DisableWakeUpText();
-                    state = STATE.RUNNING;
-                    ResetDayLength();
+                    BeginNewDay();
                 }
                 break;
 
         }
-        {
-            
-        }
+    }
 
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            
-        }
+    public bool IsWakingUp() {
+        return state == STATE.WAKING_UP;
     }
 
     private void ResetDayLength()
     {
         timeLeftInDay = dayLength;
+    }
+
+    private void InitializeDay() {
+        dayUIManager.SetDayText(dayMetaManager.GetDay(day).DayNumber);
+        wakeUpController = new WakeUpController(dayMetaManager.GetDay(day).WakeUpText);
+        dayUIManager.EnableWakeUpText(dayMetaManager.GetDay(day).WakeUpText);
+        
+        state = STATE.WAKING_UP;
+        playerMovement.Disable();
+    }
+
+    private void InitializeNewDay() {
+        day = (day + 1) % (dayMetaManager.GetDays().Count);
+        InitializeDay();
+    }
+
+    private void BeginNewDay() {
+        dayUIManager.DisableWakeUpText();
+        state = STATE.RUNNING;
+        ResetDayLength();
+        playerMovement.Enable();
     }
 }

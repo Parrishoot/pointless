@@ -36,19 +36,6 @@ public class CameraController : Singleton<CameraController>
     void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.J))
-        {
-            SetCameraPosition(POSITION.LEFT);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SetCameraPosition(POSITION.CENTER);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SetCameraPosition(POSITION.RIGHT);
-        }
-
         float currentX = transform.position.x;
         float currentY = transform.position.y;
 
