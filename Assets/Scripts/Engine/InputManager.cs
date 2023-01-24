@@ -2,7 +2,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 
 public class InputManager : Singleton<InputManager>
@@ -179,6 +178,16 @@ public class InputManager : Singleton<InputManager>
         {
             inputKeys.Add(action, inputAction);
         }
+    }
+
+    public bool SpecificLetterKeyPressedThisFrame(string letter)
+    {
+        return Input.inputString.Contains(letter.ToLower());
+    }
+
+    public bool AnyKeyPressedThisFrame()
+    {
+        return (Input.anyKeyDown && !GetKeyDown(ACTION.PAUSE));
     }
 
     [System.Serializable]
