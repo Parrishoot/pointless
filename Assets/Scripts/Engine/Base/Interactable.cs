@@ -16,7 +16,7 @@ public abstract class Interactable : MonoBehaviour
         dayManager = DayManager.GetInstance();
     }
 
-    private void Update()
+    public virtual void Update()
     {
         if(InputManager.GetInstance().GetKeyDown(InputManager.ACTION.INTERACT) && canInteract && !dayManager.IsWakingUp())
         {
@@ -32,7 +32,7 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public virtual void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {

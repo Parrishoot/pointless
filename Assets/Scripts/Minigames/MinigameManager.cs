@@ -43,7 +43,7 @@ public class MinigameManager : Singleton<MinigameManager>
 
     public void BeginMinigame(MINIGAME minigame, CameraController.POSITION cameraPosition)
     {
-        PlayerMovement.GetInstance().Disable();
+        PlayerMovementController.GetInstance().Disable();
 
         GameObject minigameControllerPrefab = Instantiate(minigameControllerPrefabs[minigame]);
         currentController = minigameControllerPrefab.GetComponent<MinigameController>();
@@ -58,7 +58,7 @@ public class MinigameManager : Singleton<MinigameManager>
         Destroy(currentController.gameObject);
         currentController = null;
         CameraController.GetInstance().SetCameraPosition(CameraController.POSITION.CENTER);
-        PlayerMovement.GetInstance().Enable();
+        PlayerMovementController.GetInstance().Enable();
     }
 
     public bool InProgress()

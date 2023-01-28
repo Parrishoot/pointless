@@ -24,7 +24,7 @@ public class DayManager : Singleton<DayManager>
 
     private DayMetaManager dayMetaManager;
 
-    private PlayerMovement playerMovement;
+    private PlayerMovementController playerMovement;
 
     private int day = 0;
 
@@ -32,7 +32,7 @@ public class DayManager : Singleton<DayManager>
     void Start()
     {
         dayMetaManager = DayMetaManager.GetInstance();
-        playerMovement = PlayerMovement.GetInstance();
+        playerMovement = PlayerMovementController.GetInstance();
         InitializeDay();
     }
 

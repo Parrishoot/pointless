@@ -6,6 +6,6 @@ public class VideogameSetupState : MinigameState
 {
     public override void Setup()
     {
-        Debug.Log("Starting!");
+        
     }
 }

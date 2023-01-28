@@ -9,7 +9,7 @@ public class GroundChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Wall_B")
+        if (collision.gameObject.tag == "Ground")
         {
             onGround = true;
         }
@@ -17,7 +17,7 @@ public class GroundChecker : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Wall_B")
+        if (collision.gameObject.tag == "Ground")
         {
             onGround = false;
         }

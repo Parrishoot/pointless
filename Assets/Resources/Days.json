@@ -1,0 +1,16 @@
+{
+    "daysArray": [
+        {
+            "dayNumber": 1,
+            "wakeUpText": "WAKEUP"
+        },
+        {
+            "dayNumber": 3,
+            "wakeUpText": "WAKEUP"
+        },
+        {
+            "dayNumber": 5,
+            "wakeUpText": "SOMETHINGELSE"
+        }
+    ]
+}
