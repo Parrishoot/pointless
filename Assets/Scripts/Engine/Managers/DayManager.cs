@@ -99,4 +99,18 @@ public class DayManager : Singleton<DayManager>
         ResetDayLength();
         playerMovement.Enable();
     }
+
+    public float GetDayPercentage() {
+
+        if(state != STATE.RUNNING) {
+            return 0f;
+        }
+
+        return (dayLength - timeLeftInDay) / dayLength;
+    }
+
+    public float GetLerpedValueBasedOnTimeOfDay(float minValue, float maxValue) {
+        float timeOfDayPercentage = GetDayPercentage();
+        return Mathf.Lerp(minValue, maxValue, timeOfDayPercentage);
+    }
 }
