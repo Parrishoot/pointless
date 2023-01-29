@@ -127,8 +127,6 @@ public class DayUIManager : MonoBehaviour
 
         TMP_CharacterInfo info = wakeUpText.textInfo.characterInfo[characterIndex];
 
-        Debug.Log(info.character);
-
         return (info.vertex_BR.position.x - info.vertex_BL.position.x);
 
     }
