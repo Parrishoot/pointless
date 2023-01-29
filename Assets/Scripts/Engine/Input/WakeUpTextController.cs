@@ -32,4 +32,8 @@ public class WakeUpController
     {
         index++;
     }
+
+    public int GetIndex() {
+        return index;
+    }
 }

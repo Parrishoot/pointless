@@ -52,8 +52,15 @@ public class DayManager : Singleton<DayManager>
             case STATE.WAKING_UP:
                 if (InputManager.GetInstance().SpecificLetterKeyPressedThisFrame(wakeUpController.GetCurrentCharacter()))
                 {
-                    dayUIManager.SlideTextLeft();
                     wakeUpController.Progress();
+
+                    if(wakeUpController.IsFinished())
+                    {
+                        BeginNewDay();
+                    }
+                    else {
+                        dayUIManager.Progress(wakeUpController.GetIndex());
+                    }
                 }
                 else if(InputManager.GetInstance().AnyKeyPressedThisFrame())
                 {
@@ -61,10 +68,6 @@ public class DayManager : Singleton<DayManager>
                     wakeUpController.Reset();
                 }
 
-                if(wakeUpController.IsFinished())
-                {
-                    BeginNewDay();
-                }
                 break;
 
         }
