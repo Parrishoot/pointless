@@ -28,7 +28,7 @@ public class DayUIManager : MonoBehaviour
 
     public void Start()
     {
-        wakeUpTextPositionStart = wakeUpText.rectTransform.position;
+        wakeUpTextPositionStart = wakeUpText.rectTransform.localPosition;
     }
 
     public void Update() {
@@ -37,7 +37,7 @@ public class DayUIManager : MonoBehaviour
             if(remainingWakeUpTextSlideTime >= 0) {
                 remainingWakeUpTextSlideTime -= Time.deltaTime;
                 float time = Mathf.Clamp((wakeUpTextSlideTime - remainingWakeUpTextSlideTime) / wakeUpTextSlideTime, 0f, 1f);
-                wakeUpText.rectTransform.localPosition = Vector3.Lerp(lerpStartPosition, lerpTargetPosition, time);
+                wakeUpText.rectTransform.localPosition = Vector3.Lerp(lerpStartPosition, lerpTargetPosition, Mathf.SmoothStep(0f, 1f, time));
             }
             else if(lerpTargetPosition != wakeUpText.rectTransform.localPosition) {
                 wakeUpText.rectTransform.localPosition = lerpTargetPosition;
@@ -77,7 +77,7 @@ public class DayUIManager : MonoBehaviour
 
         wakeUpTextInitialLocalDayPosition = wakeUpTextPositionStart + (Vector3.left * (GetWidthOfCharacter(0) / 2));
 
-        SetWakeUpTextLerp(wakeUpText.rectTransform.position,
+        SetWakeUpTextLerp(wakeUpText.rectTransform.localPosition,
                           wakeUpTextInitialLocalDayPosition);
     }
 
@@ -127,7 +127,7 @@ public class DayUIManager : MonoBehaviour
 
         TMP_CharacterInfo info = wakeUpText.textInfo.characterInfo[characterIndex];
 
-        return (info.vertex_BR.position.x - info.vertex_BL.position.x);
+        return Mathf.Abs(info.vertex_BR.position.x - info.vertex_BL.position.x);
 
     }
 
