@@ -18,6 +18,8 @@ public class DialogueUIController : MonoBehaviour
 
     public float letterOffsetScale = 5f;
 
+    public float letterFadeRatio = 3f;
+
     public float characterAppearSpeed = .1f;
 
     public float dialogueSpawnTime = .1f;
@@ -109,7 +111,7 @@ public class DialogueUIController : MonoBehaviour
 
                 Vector2 offset = targetPosition - currentPosition;
 
-                float alpha = Mathf.Clamp(Mathf.Lerp(0, 2, lerpPercentage), 0, 1);
+                float alpha = Mathf.Clamp(Mathf.Lerp(0, letterFadeRatio, lerpPercentage), 0, 1);
 
                 Debug.Log(alpha);
 

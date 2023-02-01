@@ -5959,7 +5959,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.80505496
-      value: 0.4875849
+      value: 0.7682627
       inSlope: -0.04574195
       outSlope: -0.04574195
       tangentMode: 0
@@ -5969,8 +5969,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0.002357483
-      inSlope: -2.4890473
-      outSlope: -2.4890473
+      inSlope: -3.9288263
+      outSlope: -3.9288263
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -5978,7 +5978,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  letterOffsetScale: 10
+  letterOffsetScale: 15
   characterAppearSpeed: 0.15
   dialogueSpawnTime: 0.0125
 --- !u!1 &196073855
@@ -7915,7 +7915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7973,7 +7973,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
