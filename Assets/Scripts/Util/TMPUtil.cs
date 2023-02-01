@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class TMPUtil
 {
-    public static TMP_CharacterInfo GetCharcterInfo(TextMeshProUGUI text, int characterIndex) {
+    public static TMP_CharacterInfo GetCharcterInfo(TMP_Text text, int characterIndex) {
         return  text.textInfo.characterInfo[characterIndex];
     }
 
@@ -40,7 +40,7 @@ public static class TMPUtil
         }
     }
 
-    public static Vector3 GetCharacterCenter(TextMeshProUGUI text, int characterIndex) {
+    public static Vector2 GetCharacterCenter(TMP_Text text, int characterIndex) {
 
         TMP_CharacterInfo info = GetCharcterInfo(text, characterIndex);
         int vertexIndex = info.vertexIndex;
@@ -48,7 +48,7 @@ public static class TMPUtil
         float xPos = (info.vertex_BL.position.x + info.vertex_BR.position.x) / 2;
         float yPos = (info.vertex_TL.position.y + info.vertex_BL.position.y) / 2;
 
-        return new Vector3(xPos, yPos, 0f);
+        return new Vector3(xPos, yPos);
 
     }
 
@@ -64,28 +64,7 @@ public static class TMPUtil
             text.ForceMeshUpdate();
         }
 
-        text.renderMode = TextRenderFlags.DontRender;
-
-        Vector2 initialPosition = GetCharacterCenter(text, characterIndex);
-
-        Vector3 offset = pos - initialPosition;
-    
-        Vector3[] vertices = text.textInfo.meshInfo[0].vertices;
-
-        vertices[info.vertexIndex + 0] += offset;
-        vertices[info.vertexIndex + 1] += offset; 
-        vertices[info.vertexIndex + 2] += offset;
-        vertices[info.vertexIndex + 3] += offset;
-
-        text.mesh.vertices = vertices;
-        text.mesh.uv = text.textInfo.meshInfo[0].uvs0;
-        text.mesh.uv2 = text.textInfo.meshInfo[0].uvs2;
-
-        if(updateVertexData) {
-            text.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
-            text.UpdateVertexData(TMP_VertexDataUpdateFlags.Uv0);
-            text.UpdateVertexData(TMP_VertexDataUpdateFlags.Uv2);
-        }
+       
     }
 
     public static float GetWidthOfCharacter(TextMeshProUGUI text, int characterIndex) {

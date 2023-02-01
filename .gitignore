@@ -70,3 +70,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# I don't need all the TM Pro Examples
+/[Aa]ssets/TextMesh Pro/Examples & Extras/*
+
