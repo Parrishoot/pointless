@@ -7,7 +7,7 @@ public class DayUIManager : MonoBehaviour
 {
 
     public TextMeshProUGUI dayText;
-    public TMP_Text wakeUpText;
+    public TextMeshProUGUI wakeUpText;
     public int textSpacing;
 
     public float flashSpeed = 1f;
@@ -43,7 +43,7 @@ public class DayUIManager : MonoBehaviour
                 wakeUpText.rectTransform.localPosition = lerpTargetPosition;
             }
 
-            SetCharacterAlpha(currentIndex, Mathf.PingPong(Time.time * flashSpeed, 1));
+            TMPUtil.SetCharacterAlpha(wakeUpText, currentIndex, Mathf.PingPong(Time.time * flashSpeed, 1), true, false);
         }
     }
 
@@ -54,7 +54,7 @@ public class DayUIManager : MonoBehaviour
 
     public void Progress(int index) {
     
-        SetCharacterAlpha(currentIndex, 1);
+        TMPUtil.SetCharacterAlpha(wakeUpText, currentIndex, 1, true, false);
 
         SlideTextLeft();
 
@@ -71,11 +71,11 @@ public class DayUIManager : MonoBehaviour
 
     public void ResetWakeUpText()
     {
-        SetCharacterAlpha(currentIndex, 1);
+        TMPUtil.SetCharacterAlpha(wakeUpText, currentIndex, 1);
 
         currentIndex = 0;
 
-        wakeUpTextInitialLocalDayPosition = wakeUpTextPositionStart + (Vector3.left * (GetWidthOfCharacter(0) / 2));
+        wakeUpTextInitialLocalDayPosition = wakeUpTextPositionStart + (Vector3.left * (TMPUtil.GetWidthOfCharacter(wakeUpText, 0) / 2));
 
         SetWakeUpTextLerp(wakeUpText.rectTransform.localPosition,
                           wakeUpTextInitialLocalDayPosition);
@@ -93,50 +93,18 @@ public class DayUIManager : MonoBehaviour
         wakeUpText.enabled = false;
     }
 
-    private void SetCharacterAlpha(int characterIndex, float alpha) {
-
-        wakeUpText.ForceMeshUpdate();
-
-        TMP_CharacterInfo info = wakeUpText.textInfo.characterInfo[characterIndex];
-
-        int materialIndex = info.materialReferenceIndex;
-        int vertexIndex = info.vertexIndex;
-   
-
-        float alphaValue = ((int) (255 * alpha));
-
-        Color32[] vertexColors = wakeUpText.textInfo.meshInfo[materialIndex].colors32;
-
-        vertexColors[vertexIndex + 0].a = (byte) alphaValue;
-        vertexColors[vertexIndex + 1].a = (byte) alphaValue;
-        vertexColors[vertexIndex + 2].a = (byte) alphaValue;
-        vertexColors[vertexIndex + 3].a = (byte) alphaValue;
-
-        wakeUpText.UpdateVertexData();
-    }
-
     private void SetWakeUpTextLerp(Vector3 startPositon, Vector3 targetPosition) {
         lerpStartPosition = startPositon;
         lerpTargetPosition = targetPosition;
         remainingWakeUpTextSlideTime = wakeUpTextSlideTime;
     }
 
-    private float GetWidthOfCharacter(int characterIndex) {
-
-        wakeUpText.ForceMeshUpdate(true);
-
-        TMP_CharacterInfo info = wakeUpText.textInfo.characterInfo[characterIndex];
-
-        return Mathf.Abs(info.vertex_BR.position.x - info.vertex_BL.position.x);
-
-    }
-
     private float GetCharacterSlideWidth(int characterIndex) {
 
         wakeUpText.ForceMeshUpdate(true);
 
-        TMP_CharacterInfo infoFirstCharacter = wakeUpText.textInfo.characterInfo[characterIndex];
-        TMP_CharacterInfo infoSecondCharacter = wakeUpText.textInfo.characterInfo[characterIndex + 1];
+        TMP_CharacterInfo infoFirstCharacter = TMPUtil.GetCharcterInfo(wakeUpText, characterIndex);
+        TMP_CharacterInfo infoSecondCharacter = TMPUtil.GetCharcterInfo(wakeUpText, characterIndex + 1);;
 
         float firstCharacterMidpoint = infoFirstCharacter.vertex_BL.position.x + (Mathf.Abs(infoFirstCharacter.vertex_BL.position.x - infoFirstCharacter.vertex_BR.position.x) / 2);
         float secondCharacterMidpoint = infoSecondCharacter.vertex_BL.position.x + (Mathf.Abs(infoSecondCharacter.vertex_BL.position.x - infoSecondCharacter.vertex_BR.position.x) / 2);

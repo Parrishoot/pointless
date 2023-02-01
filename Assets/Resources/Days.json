@@ -2,7 +2,7 @@
     "daysArray": [
         {
             "dayNumber": 1,
-            "wakeUpText": "WAKEUP"
+            "wakeUpText": "UP"
         },
         {
             "dayNumber": 3,
