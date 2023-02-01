@@ -78,8 +78,6 @@ public class DialogueUIController : MonoBehaviour
             else {
                 
                 characterSpawns.Add(new CharacterSpawn(currentIndex, characterAppearSpeed, TMPUtil.GetCharacterCenter(dialogueText, currentIndex)));
-
-                Debug.Log("Character " + dialogueText.textInfo.characterInfo[currentIndex].character + ", vertexIndex " + dialogueText.textInfo.characterInfo[currentIndex].vertexIndex.ToString());
                 currentIndex++;
                 currentDialogueSpawnTime = dialogueSpawnTime;
             }
@@ -112,8 +110,6 @@ public class DialogueUIController : MonoBehaviour
                 Vector2 offset = targetPosition - currentPosition;
 
                 float alpha = Mathf.Clamp(Mathf.Lerp(0, letterFadeRatio, lerpPercentage), 0, 1);
-
-                Debug.Log(alpha);
 
                 int vertexIndex = dialogueText.textInfo.characterInfo[characterSpawn.CharacterIndex].vertexIndex;
 

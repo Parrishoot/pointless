@@ -5979,6 +5979,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   letterOffsetScale: 15
+  letterFadeRatio: 3
   characterAppearSpeed: 0.15
   dialogueSpawnTime: 0.0125
 --- !u!1 &196073855
