@@ -5958,8 +5958,8 @@ MonoBehaviour:
       inWeight: 0.15624453
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.80505496
-      value: 0.7682627
+      time: 0.8222669
+      value: 0.15521032
       inSlope: -0.04574195
       outSlope: -0.04574195
       tangentMode: 0
@@ -5969,8 +5969,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0.002357483
-      inSlope: -3.9288263
-      outSlope: -3.9288263
+      inSlope: -0.8600132
+      outSlope: -0.8600132
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -5981,7 +5981,7 @@ MonoBehaviour:
   letterOffsetScale: 15
   letterFadeRatio: 3
   characterAppearSpeed: 0.15
-  dialogueSpawnTime: 0.0125
+  dialogueSpawnTime: 0.008
 --- !u!1 &196073855
 GameObject:
   m_ObjectHideFlags: 0
@@ -7922,8 +7922,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is a lot of text to see how the performance of the text system will
-    work under pressure.
+  m_text: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7932,8 +7931,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2694943
-  m_fontColor: {r: 0.12156863, g: 0.12156863, b: 0.16078432, a: 0}
+    rgba: 4280885023
+  m_fontColor: {r: 0.12156863, g: 0.12156863, b: 0.16078432, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

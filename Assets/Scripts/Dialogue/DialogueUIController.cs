@@ -7,13 +7,6 @@ public class DialogueUIController : MonoBehaviour
 {
     public TMP_Text dialogueText;
 
-    Mesh mesh;
-
-    Vector3[] vertices;
-
-    List<int> wordIndexes;
-    List<int> wordLengths;
-
     public AnimationCurve letterCurve;
 
     public float letterOffsetScale = 5f;
@@ -76,8 +69,11 @@ public class DialogueUIController : MonoBehaviour
                 currentDialogueSpawnTime -= Time.deltaTime;
             }
             else {
-                
+                dialogueText.maxVisibleCharacters++;
+
+                dialogueText.ForceMeshUpdate();
                 characterSpawns.Add(new CharacterSpawn(currentIndex, characterAppearSpeed, TMPUtil.GetCharacterCenter(dialogueText, currentIndex)));
+
                 currentIndex++;
                 currentDialogueSpawnTime = dialogueSpawnTime;
             }
@@ -85,76 +81,78 @@ public class DialogueUIController : MonoBehaviour
 
         List<CharacterSpawn> removeCharacterSpawns = new List<CharacterSpawn>();
 
-        // if(!isFinished()) {
+        Mesh mesh = dialogueText.mesh;
+        Vector3[] vertices = mesh.vertices;
+        Color[] colors = mesh.colors;
 
-            Mesh mesh = dialogueText.mesh;
-            Vector3[] vertices = mesh.vertices;
-            Color[] colors = mesh.colors;
+        bool allCharactersProcessed = true;
 
-            bool allCharactersProcessed = true;
+        // Go through each of the spawned characters
+        foreach(CharacterSpawn characterSpawn in characterSpawns) {
 
-            foreach(CharacterSpawn characterSpawn in characterSpawns) {
+            allCharactersProcessed = allCharactersProcessed && characterSpawn.Processed;            
 
-                allCharactersProcessed = allCharactersProcessed && characterSpawn.Processed;            
-
-                if(!dialogueText.textInfo.characterInfo[characterSpawn.CharacterIndex].isVisible) {
-                    removeCharacterSpawns.Add(characterSpawn);
-                    continue;
-                }
-
-                float lerpPercentage = (characterAppearSpeed - characterSpawn.RemainingLerpTime) / characterAppearSpeed;
-
-                Vector2 targetPosition = Vector2.Lerp(characterSpawn.Position + new Vector2(0, letterCurve.Evaluate(lerpPercentage) * letterOffsetScale), characterSpawn.Position, lerpPercentage);
-                Vector2 currentPosition = TMPUtil.GetCharacterCenter(dialogueText, characterSpawn.CharacterIndex);
-
-                Vector2 offset = targetPosition - currentPosition;
-
-                float alpha = Mathf.Clamp(Mathf.Lerp(0, letterFadeRatio, lerpPercentage), 0, 1);
-
-                int vertexIndex = dialogueText.textInfo.characterInfo[characterSpawn.CharacterIndex].vertexIndex;
-
-                if(characterSpawn.RemainingLerpTime == 0) {
-
-                    characterSpawn.Processed = true;
-
-                    colors[vertexIndex].a = 1;
-                    colors[vertexIndex + 1].a = 1;
-                    colors[vertexIndex + 2].a = 1;
-                    colors[vertexIndex + 3].a = 1; 
-                }
-                else {
-                    colors[vertexIndex].a = alpha;
-                    colors[vertexIndex + 1].a = alpha;
-                    colors[vertexIndex + 2].a = alpha;
-                    colors[vertexIndex + 3].a = alpha;
-
-                    vertices[vertexIndex].y += offset.y;
-                    vertices[vertexIndex + 1].y += offset.y;
-                    vertices[vertexIndex + 2].y += offset.y;
-                    vertices[vertexIndex + 3].y += offset.y;
-                }
-            
-                characterSpawn.RemainingLerpTime = Mathf.Max(characterSpawn.RemainingLerpTime - Time.deltaTime, 0);
+            // Removed spaces and other blank characters
+            if(dialogueText.textInfo.characterInfo[characterSpawn.CharacterIndex].character == ' ') {
+                removeCharacterSpawns.Add(characterSpawn);
+                continue;
             }
 
-            mesh.vertices = vertices;
-            mesh.colors = colors;
+            // Get the animation lerp percentage
+            float lerpPercentage = (characterAppearSpeed - characterSpawn.RemainingLerpTime) / characterAppearSpeed;
 
-            dialogueText.canvasRenderer.SetMesh(mesh);
+            // Find the offset position
+            Vector2 targetPosition = Vector2.Lerp(characterSpawn.Position + new Vector2(0, letterCurve.Evaluate(lerpPercentage) * letterOffsetScale), characterSpawn.Position, lerpPercentage);
+            Vector2 currentPosition = TMPUtil.GetCharacterCenter(dialogueText, characterSpawn.CharacterIndex);
 
-            foreach(CharacterSpawn removedCharacterSpawn in removeCharacterSpawns) {
-                characterSpawns.Remove(removedCharacterSpawn);
+            Vector2 offset = targetPosition - currentPosition;
+
+            // Find the fade in alpha
+            float alpha = Mathf.Clamp(Mathf.Lerp(0, letterFadeRatio, lerpPercentage), 0, 1);
+
+            int vertexIndex = dialogueText.textInfo.characterInfo[characterSpawn.CharacterIndex].vertexIndex;
+
+            // If a character is finsihed animating, keep it's alpha at 1
+            /*
+            vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+            THIS IS WHERE I THINK THE WASTE IS
+            vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+            */
+            if(characterSpawn.RemainingLerpTime == 0) {
+                removeCharacterSpawns.Add(characterSpawn);
+            }
+            // Otherwise, animate it moving and update the alpha
+            else {
+                vertices[vertexIndex].y += offset.y;
+                vertices[vertexIndex + 1].y += offset.y;
+                vertices[vertexIndex + 2].y += offset.y;
+                vertices[vertexIndex + 3].y += offset.y;
             }
 
-            if(allCharactersProcessed) {
-                finished = true;
-            }
+            // colors[vertexIndex].a = 1;
+            // colors[vertexIndex + 1].a = 1;
+            // colors[vertexIndex + 2].a = 1;
+            // colors[vertexIndex + 3].a = 1; 
+        
+            // Update the Lerp time
+            characterSpawn.RemainingLerpTime = Mathf.Max(characterSpawn.RemainingLerpTime - Time.deltaTime, 0);
+        }
 
-        // }
+
+        mesh.vertices = vertices;
+        dialogueText.canvasRenderer.SetMesh(mesh);
+
+        foreach(CharacterSpawn removedCharacterSpawn in removeCharacterSpawns) {
+            characterSpawns.Remove(removedCharacterSpawn);
+        }
+
+        if(allCharactersProcessed) {
+            finished = true;
+        }
 
         if(Input.GetKeyDown(KeyCode.G)) {
-            dialogueText.SetText("This is some new text to make sure that it works with different inputs!");
             currentIndex = 0;
+            dialogueText.maxVisibleCharacters = 0;
             finished = false;
             characterSpawns.Clear();
         }
