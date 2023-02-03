@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class Dialogue
 {
-    private float speed = .1f;
+
+    public static float DEFAULT_SPEED = -1f; 
+
+    private float speed;
     private string text;
 
-    public Dialogue(string text, float speed = .1f)
+    public Dialogue(string text, float speed = -1)
     {
         this.speed = speed;
         this.text = text;

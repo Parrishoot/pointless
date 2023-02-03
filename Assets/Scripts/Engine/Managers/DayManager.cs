@@ -24,7 +24,7 @@ public class DayManager : Singleton<DayManager>
 
     private DayMetaManager dayMetaManager;
 
-    private PlayerMovementController playerMovement;
+    private PlayerMovementManager playerMovementManager;
 
     private int day = 0;
 
@@ -32,7 +32,7 @@ public class DayManager : Singleton<DayManager>
     void Start()
     {
         dayMetaManager = DayMetaManager.GetInstance();
-        playerMovement = PlayerMovementController.GetInstance();
+        playerMovementManager = PlayerMovementManager.GetInstance();
         InitializeDay();
     }
 
@@ -88,7 +88,7 @@ public class DayManager : Singleton<DayManager>
         dayUIManager.EnableWakeUpText(dayMetaManager.GetDay(day).WakeUpText);
         
         state = STATE.WAKING_UP;
-        playerMovement.Disable();
+        playerMovementManager.DisableMovement();
     }
 
     private void InitializeNewDay() {
@@ -100,7 +100,7 @@ public class DayManager : Singleton<DayManager>
         dayUIManager.DisableWakeUpText();
         state = STATE.RUNNING;
         ResetDayLength();
-        playerMovement.Enable();
+        playerMovementManager.EnableMovement();
     }
 
     public float GetDayPercentage() {

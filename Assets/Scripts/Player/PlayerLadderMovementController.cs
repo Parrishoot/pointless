@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLadderMovementController : Singleton<PlayerLadderMovementController>
+public class PlayerLadderMovementController : PlayerMovementController
 {
     public Rigidbody2D playerRigidbody;
-    public GroundChecker groundChecker;
 
     private float gravityScale;
 
@@ -23,20 +22,16 @@ public class PlayerLadderMovementController : Singleton<PlayerLadderMovementCont
         }
     }
 
-    public void Disable() {
+    public override void Disable() {
         playerRigidbody.velocity = new Vector2(0, 0);
         playerRigidbody.gravityScale = gravityScale;
         enabled = false;
     }
 
-    public void Enable() {
+    public override void Enable() {
         playerRigidbody.velocity = new Vector2(0, 0);
         gravityScale = playerRigidbody.gravityScale;
         playerRigidbody.gravityScale = 0f;
         enabled = true;
-    }
-
-    public bool IsOnGround() {
-        return groundChecker.IsGrounded();
     }
 }

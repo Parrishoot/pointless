@@ -13,15 +13,15 @@ public class DialogueUIController : MonoBehaviour
 
     public float characterAppearSpeed = .1f;
 
-    public float dialogueSpawnTime = .1f;
+    public float defaultDialogueSpeed = 0.0125f;
 
-    private Dialogue currentDialogue;
+    private Queue<Dialogue> dialogueQueue = new Queue<Dialogue>();
 
-    private float currentDialogueSpawnTime = 0f;
+    private float currentDialogueSpeed = 0.0125f;
+
+    private float remainingDialogueSpawnTime = 0f;
 
     private List<CharacterSpawn> characterSpawns = new List<CharacterSpawn>();
-
-    private bool finished = true;
 
     private class CharacterSpawn {
 
@@ -41,13 +41,7 @@ public class DialogueUIController : MonoBehaviour
         public float RemainingLerpTime { get => remainingLerpTime; set => remainingLerpTime = value; }
         public int CharacterIndex { get => characterIndex; set => characterIndex = value; }
         public Vector2 Position { get => position; set => position = value; }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        dialogueText.maxVisibleCharacters = 0;
-    }   
+    } 
 
     // // Update is called once per frame
     void Update()
@@ -57,8 +51,8 @@ public class DialogueUIController : MonoBehaviour
         // If there is still text to spawn, lets see it!
         if(charactersStillInvisible()) {
 
-            if(currentDialogueSpawnTime > 0) {
-                currentDialogueSpawnTime -= Time.deltaTime;
+            if(remainingDialogueSpawnTime > 0) {
+                remainingDialogueSpawnTime -= Time.deltaTime;
             }
             else {
 
@@ -70,7 +64,7 @@ public class DialogueUIController : MonoBehaviour
                 int characterIndex = dialogueText.maxVisibleCharacters - 1;
                 characterSpawns.Add(new CharacterSpawn(characterIndex, characterAppearSpeed, TMPUtil.GetCharacterCenter(dialogueText, characterIndex)));
 
-                currentDialogueSpawnTime = dialogueSpawnTime;
+                remainingDialogueSpawnTime = currentDialogueSpeed;
             }
         }
 
@@ -122,35 +116,38 @@ public class DialogueUIController : MonoBehaviour
             characterSpawns.Remove(removedCharacterSpawn);
         }
 
-        if(Input.GetKeyDown(KeyCode.G)) {
-            dialogueText.maxVisibleCharacters = 0;
-            dialogueText.text = "I have so many beautiful things to say as long as the text system that helps me say them doesn't completely break! I love words!";
-            finished = false;
-            characterSpawns.Clear();
+        if(Input.GetKeyDown(KeyCode.Space) && canMoveToNextDialogue()) {
+            StartNextDialogue();
         }
     }
 
-    // public void SetDialogue(Dialogue dialogue) {
-    //     this.currentDialogue = dialogue;
+    public void StartDialogue(List<Dialogue> dialogueList) {
 
-    //     dialogueText.SetText(currentDialogue.Text);
-    //     dialogueText.ForceMeshUpdate();
+        PlayerMovementManager.GetInstance().DisableMovement();
 
-    //     ResetMeshAlpha();
+        dialogueQueue = new Queue<Dialogue>(dialogueList);
+        StartNextDialogue();
+    }
 
-    //     currentIndex = 0;
-    // }
-
-    private void ResetMeshAlpha() {
-
-
+    public void StartNextDialogue() {
+        if (dialogueQueue.Count != 0) {
+            Dialogue nextDialogue = dialogueQueue.Dequeue();
+            dialogueText.text = nextDialogue.Text;
+            currentDialogueSpeed = nextDialogue.Speed == Dialogue.DEFAULT_SPEED ? defaultDialogueSpeed : nextDialogue.Speed;
+            dialogueText.maxVisibleCharacters = 0;
+            characterSpawns.Clear();
+        }
+        else {
+            PlayerMovementManager.GetInstance().EnableMovement();
+            Destroy(gameObject);
+        }
     }
 
     public bool charactersStillInvisible() { 
         return (dialogueText.maxVisibleCharacters < dialogueText.text.Length);
     }
 
-    public bool isFinished() {
-        return charactersStillInvisible() && characterSpawns.Count == 0;
+    public bool canMoveToNextDialogue() {
+        return !charactersStillInvisible() && characterSpawns.Count == 0;
     }
 }

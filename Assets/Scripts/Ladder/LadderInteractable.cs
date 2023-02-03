@@ -13,7 +13,7 @@ public class LadderInteractable : Interactable
         if(!isClimbing) {
             BeginClimbing();
         }
-        else if(PlayerLadderMovementController.GetInstance().IsOnGround()) {
+        else if(PlayerMovementManager.GetInstance().isGrounded()) {
             EndClimbing();
         }
     }
@@ -33,10 +33,10 @@ public class LadderInteractable : Interactable
         base.Update();
 
         if(isClimbing) {
-            if(PlayerLadderMovementController.GetInstance().IsOnGround() && leftGround) {
+            if(PlayerMovementManager.GetInstance().isGrounded() && leftGround) {
                 EndClimbing();
             }
-            else if(!PlayerLadderMovementController.GetInstance().IsOnGround()) {
+            else if(!PlayerMovementManager.GetInstance().isGrounded()) {
                 leftGround = true;
             }
         }
@@ -49,14 +49,12 @@ public class LadderInteractable : Interactable
         isClimbing = true;
         leftGround = false;
         floor.GetComponent<BoxCollider2D>().enabled = false;
-        PlayerMovementController.GetInstance().Disable();
-        PlayerLadderMovementController.GetInstance().Enable();
+        PlayerMovementManager.GetInstance().SwitchMovementController(PlayerMovementManager.MOVEMENT_TYPE.LADDER);
     }
 
     public void EndClimbing() {
         isClimbing = false;
         floor.GetComponent<BoxCollider2D>().enabled = true;
-        PlayerLadderMovementController.GetInstance().Disable(); 
-        PlayerMovementController.GetInstance().Enable();         
+        PlayerMovementManager.GetInstance().SwitchMovementController(PlayerMovementManager.MOVEMENT_TYPE.BASE);        
     }
 }
