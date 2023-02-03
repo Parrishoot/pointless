@@ -5981,7 +5981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69ea6846744220408c100bdd7c86a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLength: 30
+  dayLength: 10
   dayUIManager: {fileID: 588308055}
 --- !u!1 &279247031
 GameObject:

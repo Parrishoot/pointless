@@ -7,10 +7,10 @@ using UnityEngine;
 public class Dialogue
 {
 
-    public static float DEFAULT_SPEED = -1f; 
+    public static float DEFAULT_SPEED = 0; 
 
     [SerializeField]
-    private float speed = DEFAULT_SPEED;
+    private float speed = 0;
 
     [SerializeField]
     private string text;

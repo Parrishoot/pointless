@@ -116,8 +116,16 @@ public class DialogueUIController : MonoBehaviour
             characterSpawns.Remove(removedCharacterSpawn);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && canMoveToNextDialogue()) {
-            StartNextDialogue();
+        if(Input.GetKeyDown(KeyCode.Space)) {
+
+            if(canMoveToNextDialogue()) {
+                StartNextDialogue();
+            }
+            else{
+                dialogueText.maxVisibleCharacters = dialogueText.text.Length;
+                characterSpawns.Clear();
+            }
+            
         }
     }
 
