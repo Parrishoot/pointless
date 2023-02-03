@@ -26,13 +26,18 @@ public class DayManager : Singleton<DayManager>
 
     private PlayerMovementManager playerMovementManager;
 
+    private DialogueUIManager dialogueUIManager;
+
     private int day = 0;
+
+    private Queue<DialogueTrigger> dailyDialogueTriggers;
 
     // Start is called before the first frame update
     void Start()
     {
         dayMetaManager = DayMetaManager.GetInstance();
         playerMovementManager = PlayerMovementManager.GetInstance();
+        dialogueUIManager = DialogueUIManager.GetInstance();
         InitializeDay();
     }
 
@@ -42,7 +47,14 @@ public class DayManager : Singleton<DayManager>
         switch (state)
         {
             case STATE.RUNNING:
+
                 timeLeftInDay -= Time.deltaTime;
+
+                if(dailyDialogueTriggers.Count != 0 && dailyDialogueTriggers.Peek().TriggerPercentage < GetDayPercentage()) {
+                    DialogueTrigger dialogueTrigger = dailyDialogueTriggers.Dequeue();
+                    dialogueUIManager.CreateDialogue(dialogueTrigger.DialogueList);
+                }
+
                 if (timeLeftInDay <= 0)
                 {
                     InitializeNewDay();
@@ -83,7 +95,11 @@ public class DayManager : Singleton<DayManager>
     }
 
     private void InitializeDay() {
-        dayUIManager.SetDayText(dayMetaManager.GetDay(day).DayNumber);
+        Day newDay = dayMetaManager.GetDay(day);
+
+        dayUIManager.SetDayText(newDay.DayNumber);
+        dailyDialogueTriggers = new Queue<DialogueTrigger>(newDay.DialogueTriggers);
+
         wakeUpController = new WakeUpController(dayMetaManager.GetDay(day).WakeUpText);
         dayUIManager.EnableWakeUpText(dayMetaManager.GetDay(day).WakeUpText);
         

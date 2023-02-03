@@ -5981,7 +5981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69ea6846744220408c100bdd7c86a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLength: 10
+  dayLength: 30
   dayUIManager: {fileID: 588308055}
 --- !u!1 &279247031
 GameObject:
@@ -9698,10 +9698,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddf969dc2b9f3f6448326f1076c73dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundChecker: {fileID: 1235090146}
   movementSpeed: 400
   jumpForce: 1000
   playerRigidbody: {fileID: 1952949326}
-  groundChecker: {fileID: 1235090146}
 --- !u!70 &1952949328
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -9730,8 +9730,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab22085b9107fac47b5a0efd3584c267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRigidbody: {fileID: 1952949326}
   groundChecker: {fileID: 1235090146}
+  playerRigidbody: {fileID: 1952949326}
   ladderMovementSpeed: 600
 --- !u!114 &1952949330
 MonoBehaviour:

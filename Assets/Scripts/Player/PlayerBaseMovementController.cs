@@ -37,6 +37,7 @@ public class PlayerBaseMovementController : PlayerMovementController
     }
 
     public override void Enable() {
+        playerRigidbody.velocity = new Vector2(0, 0);
         enabled = true;
     }
 }

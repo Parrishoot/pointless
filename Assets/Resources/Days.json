@@ -2,15 +2,31 @@
     "daysArray": [
         {
             "dayNumber": 1,
-            "wakeUpText": "UP"
+            "wakeUpText": "UP",
+            "dialogueTriggers": [
+                {
+                    "triggerPercentage": 0.5,
+                    "dialogueList": [
+                        {
+                            "text": "Hello, this is a test of some dialogue!"
+                        },
+                        {
+                            "text": "This is a test of some slower dialogue",
+                            "speed": 0.1
+                        }
+                    ]
+                }
+            ]
         },
         {
             "dayNumber": 3,
-            "wakeUpText": "WAKEUP"
+            "wakeUpText": "WAKEUP",
+            "dialogueTriggers": []
         },
         {
             "dayNumber": 5,
-            "wakeUpText": "SOMETHINGELSE"
+            "wakeUpText": "SOMETHINGELSE",
+            "dialogueTriggers": []
         }
     ]
 }

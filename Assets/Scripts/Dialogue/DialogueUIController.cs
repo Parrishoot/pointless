@@ -121,7 +121,7 @@ public class DialogueUIController : MonoBehaviour
         }
     }
 
-    public void StartDialogue(List<Dialogue> dialogueList) {
+    public void StartDialogue(Dialogue[] dialogueList) {
 
         PlayerMovementManager.GetInstance().DisableMovement();
 

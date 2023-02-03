@@ -1,17 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[Serializable]
 public class Dialogue
 {
 
     public static float DEFAULT_SPEED = -1f; 
 
-    private float speed;
+    [SerializeField]
+    private float speed = DEFAULT_SPEED;
+
+    [SerializeField]
     private string text;
 
-    public Dialogue(string text, float speed = -1)
+    public Dialogue(string text, float speed)
     {
         this.speed = speed;
         this.text = text;
