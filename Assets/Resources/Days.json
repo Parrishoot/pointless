@@ -21,7 +21,31 @@
         {
             "dayNumber": 3,
             "wakeUpText": "WAKEUP",
-            "dialogueTriggers": []
+            "dialogueTriggers": [
+                {
+                    "triggerPercentage": 0.5,
+                    "dialogueList": [
+                        {
+                            "text": "I'm going to tell you a really long story now, so that you can test the dialogue system."
+                        },
+                        {
+                            "text": "A lot of this text will be at a pretty regular speed, so that it will look natural."
+                        },
+                        {
+                            "text": "But other parts..."
+                        },
+                        {
+                            "text": "Are going to be so slow that it's almost unbearable",
+                            "speed": 0.2
+                        }
+                        ,
+                        {
+                            "text": "But don't worry about those parts, because a majority of the game will not be like that I promise"
+                        }
+
+                    ]
+                }
+            ]
         },
         {
             "dayNumber": 5,

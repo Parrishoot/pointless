@@ -48,9 +48,11 @@ public class DayManager : Singleton<DayManager>
         {
             case STATE.RUNNING:
 
-                timeLeftInDay -= Time.deltaTime;
+                if(!dialogueUIManager.HasActiveDialogue()) {
+                    timeLeftInDay -= Time.deltaTime;
+                }
 
-                if(dailyDialogueTriggers.Count != 0 && dailyDialogueTriggers.Peek().TriggerPercentage < GetDayPercentage()) {
+                if(dailyDialogueTriggers.Count != 0 && dailyDialogueTriggers.Peek().TriggerPercentage <= GetDayPercentage()) {
                     DialogueTrigger dialogueTrigger = dailyDialogueTriggers.Dequeue();
                     dialogueUIManager.CreateDialogue(dialogueTrigger.DialogueList);
                 }
@@ -59,6 +61,7 @@ public class DayManager : Singleton<DayManager>
                 {
                     InitializeNewDay();
                 }
+
                 break;
 
             case STATE.WAKING_UP:
@@ -125,7 +128,7 @@ public class DayManager : Singleton<DayManager>
             return 0f;
         }
 
-        return (dayLength - timeLeftInDay) / dayLength;
+        return Mathf.Clamp((dayLength - timeLeftInDay) / dayLength, 0, 1);
     }
 
     public float GetLerpedValueBasedOnTimeOfDay(float minValue, float maxValue) {

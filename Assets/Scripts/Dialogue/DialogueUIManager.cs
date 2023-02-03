@@ -19,4 +19,8 @@ public class DialogueUIManager : Singleton<DialogueUIManager>
 
         currentDialogueUIController.StartDialogue(dialogueList);
     }
+
+    public bool HasActiveDialogue() {
+        return currentDialogueUIController != null;
+    }
 }
