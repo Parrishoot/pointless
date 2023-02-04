@@ -67,6 +67,9 @@ public class DayManager : Singleton<DayManager>
                 {
                    BeginNewDay();
                 }
+                else if(dayUIManager.CanResetDayTime()) {
+                    ResetDayLength();
+                }
                 break;
 
         }
@@ -98,7 +101,6 @@ public class DayManager : Singleton<DayManager>
     private void BeginNewDay() {
         dailyDialogueTriggers = new Queue<DialogueTrigger>(dayMetaManager.GetDay(day).DialogueTriggers);
         state = STATE.RUNNING;
-        ResetDayLength();
         playerMovementManager.EnableMovement();
     }
 

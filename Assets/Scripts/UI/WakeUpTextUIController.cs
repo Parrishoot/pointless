@@ -47,13 +47,14 @@ public class WakeUpTextUIController : MonoBehaviour
     }
 
     public void Progress() {
-    
-        TMPUtil.SetCharacterAlpha(wakeUpText, currentIndex, 1, true, false);
-        SlideTextLeft();
-        currentIndex++;
 
-        if(currentIndex == wakeUpText.text.Length) {
+        if(currentIndex == wakeUpText.text.Length - 1) {
             Destroy(gameObject);
+        }
+        else {
+            TMPUtil.SetCharacterAlpha(wakeUpText, currentIndex, 1, true, false);
+            SlideTextLeft();
+            currentIndex++;
         }
     }
 

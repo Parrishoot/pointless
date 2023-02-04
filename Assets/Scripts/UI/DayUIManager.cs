@@ -64,4 +64,8 @@ public class DayUIManager : MonoBehaviour
         timer.SetTimer(dayTransitionWaitTime);
     }
 
+    public bool CanResetDayTime() {
+        return dayTransitionState == DAY_TRANSITION_STATE.WAKING_UP;
+    }
+
 }
