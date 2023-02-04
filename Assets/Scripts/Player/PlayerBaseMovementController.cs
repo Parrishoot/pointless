@@ -8,6 +8,8 @@ public class PlayerBaseMovementController : PlayerMovementController
     public float movementSpeed;
     public float jumpForce;
 
+    public float gravityScale = 12f;
+
     public Rigidbody2D playerRigidbody;
 
     private void FixedUpdate()
@@ -38,6 +40,7 @@ public class PlayerBaseMovementController : PlayerMovementController
 
     public override void Enable() {
         playerRigidbody.velocity = new Vector2(0, 0);
+        playerRigidbody.gravityScale = gravityScale;
         enabled = true;
     }
 }

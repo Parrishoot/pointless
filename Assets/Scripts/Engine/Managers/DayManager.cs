@@ -20,8 +20,6 @@ public class DayManager : Singleton<DayManager>
 
     private float timeLeftInDay;
 
-    private WakeUpController wakeUpController;
-
     private DayMetaManager dayMetaManager;
 
     private PlayerMovementManager playerMovementManager;
@@ -65,24 +63,10 @@ public class DayManager : Singleton<DayManager>
                 break;
 
             case STATE.WAKING_UP:
-                if (InputManager.GetInstance().SpecificLetterKeyPressedThisFrame(wakeUpController.GetCurrentCharacter()))
+                if (dayUIManager.DayTransitionFinished())
                 {
-                    wakeUpController.Progress();
-
-                    if(wakeUpController.IsFinished())
-                    {
-                        BeginNewDay();
-                    }
-                    else {
-                        dayUIManager.Progress(wakeUpController.GetIndex());
-                    }
+                   BeginNewDay();
                 }
-                else if(InputManager.GetInstance().AnyKeyPressedThisFrame())
-                {
-                    dayUIManager.ResetWakeUpText();
-                    wakeUpController.Reset();
-                }
-
                 break;
 
         }
@@ -100,11 +84,7 @@ public class DayManager : Singleton<DayManager>
     private void InitializeDay() {
         Day newDay = dayMetaManager.GetDay(day);
 
-        dayUIManager.SetDayText(newDay.DayNumber);
-        dailyDialogueTriggers = new Queue<DialogueTrigger>(newDay.DialogueTriggers);
-
-        wakeUpController = new WakeUpController(dayMetaManager.GetDay(day).WakeUpText);
-        dayUIManager.EnableWakeUpText(dayMetaManager.GetDay(day).WakeUpText);
+        dayUIManager.BeginDayTransition(newDay.DayNumber, newDay.WakeUpText);
         
         state = STATE.WAKING_UP;
         playerMovementManager.DisableMovement();
@@ -116,18 +96,13 @@ public class DayManager : Singleton<DayManager>
     }
 
     private void BeginNewDay() {
-        dayUIManager.DisableWakeUpText();
+        dailyDialogueTriggers = new Queue<DialogueTrigger>(dayMetaManager.GetDay(day).DialogueTriggers);
         state = STATE.RUNNING;
         ResetDayLength();
         playerMovementManager.EnableMovement();
     }
 
     public float GetDayPercentage() {
-
-        if(state != STATE.RUNNING) {
-            return 0f;
-        }
-
         return Mathf.Clamp((dayLength - timeLeftInDay) / dayLength, 0, 1);
     }
 

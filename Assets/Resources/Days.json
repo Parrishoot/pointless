@@ -20,7 +20,6 @@
         },
         {
             "dayNumber": 3,
-            "wakeUpText": "WAKEUP",
             "dialogueTriggers": [
                 {
                     "triggerPercentage": 0.5,
