@@ -2,7 +2,6 @@
     "daysArray": [
         {
             "dayNumber": 1,
-            "wakeUpText": "SOMETHINGELSE",
             "dialogueTriggers": [
                 {
                     "triggerPercentage": 0.5,
@@ -48,7 +47,7 @@
         },
         {
             "dayNumber": 5,
-            "wakeUpText": "HELLOTHERETHISISSOMETEXT",
+            "wakeUpText": "SOMETHINGELSE",
             "dialogueTriggers": []
         }
     ]

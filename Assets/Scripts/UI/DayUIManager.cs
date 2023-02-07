@@ -12,6 +12,8 @@ public class DayUIManager : MonoBehaviour
 
     public TextMeshProUGUI dayTextMesh;
 
+    public TextMeshProUGUI dayHeader;
+
     public float dayTransitionWaitTime;
     
     private enum DAY_TRANSITION_STATE {
@@ -37,6 +39,7 @@ public class DayUIManager : MonoBehaviour
                 if(timer.IsFinished()) {
                     dayTransitionState = DAY_TRANSITION_STATE.WAKING_UP;
                     dayMaskAnimationController.Hide();
+                    dayHeader.SetText(dayTextMesh.text);
                     wakeUpTextUIManager.InitializeWakeUpText(nextWakeUpText);
                 }
                 break;
