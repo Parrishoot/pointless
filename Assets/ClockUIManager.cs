@@ -25,7 +25,12 @@ public class ClockUIManager : MonoBehaviour
 
     public float GetMinuteHandRotation() {
 
-        return -(dayManager.GetLerpedValueBasedOnTimeOfDay(START_TIME * 60, 60 * 24) % 60) / 60 * 360;
+        // This isn't the real-world speed, this is twice as slow. But it feels less stressful to have it move half as fast
+        return -(dayManager.GetLerpedValueBasedOnTimeOfDay(START_TIME * 60, 60 * 24) % 120) / 120 * 360;
+
+        
+        // Real world speed, for options
+        // return -(dayManager.GetLerpedValueBasedOnTimeOfDay(START_TIME * 60, 60 * 24) % 60) / 60 * 360;
 
     }
 
