@@ -6057,7 +6057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69ea6846744220408c100bdd7c86a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLength: 60
+  dayLength: 10000
   dayUIManager: {fileID: 588308055}
 --- !u!1 &215901962
 GameObject:
@@ -8857,6 +8857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoGameControllerPrefab: {fileID: 7897181083736206876, guid: 0588fc7852b8e954280c4528f819741d, type: 3}
+  dishesControllerPrefab: {fileID: 7292931784114750156, guid: a29bbec968fcc204fa558f4e835247df, type: 3}
 --- !u!1 &1151784374
 GameObject:
   m_ObjectHideFlags: 0
@@ -9831,6 +9832,10 @@ PrefabInstance:
     - target: {fileID: 5435837512903477453, guid: 425970ea8492c7649b2613f3bb8dc268, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5435837512903477454, guid: 425970ea8492c7649b2613f3bb8dc268, type: 3}
+      propertyPath: minigameType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5435837512903477455, guid: 425970ea8492c7649b2613f3bb8dc268, type: 3}
       propertyPath: m_Size.x

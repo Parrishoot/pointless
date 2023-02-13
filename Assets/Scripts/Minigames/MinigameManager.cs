@@ -6,10 +6,12 @@ public class MinigameManager : Singleton<MinigameManager>
 
     public enum MINIGAME
     {
-        VIDEO_GAME
+        VIDEO_GAME,
+        DISHES
     }
 
     public GameObject videoGameControllerPrefab;
+    public GameObject dishesControllerPrefab;
 
     private Dictionary<MINIGAME, GameObject> minigameControllerPrefabs = new Dictionary<MINIGAME, GameObject>();
     private MinigameController currentController;
@@ -21,6 +23,7 @@ public class MinigameManager : Singleton<MinigameManager>
     void Start()
     {
         minigameControllerPrefabs.Add(MINIGAME.VIDEO_GAME, videoGameControllerPrefab);
+        minigameControllerPrefabs.Add(MINIGAME.DISHES, dishesControllerPrefab);
     }
 
     public void Update()
