@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class DishesMinigameController : MinigameController
 {
+
+    public int gridSize;
     
-    public DishesDebugState debugState = new DishesDebugState();
+    public GridManager gridManager;
+
+    public DishesDebugState debugState;
 
     public override void Start()
     {
+        debugState = new DishesDebugState(gridManager, gridSize);
+
         currentState = debugState;
 
         base.Start();

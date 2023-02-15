@@ -13,6 +13,9 @@ public class MinigameManager : Singleton<MinigameManager>
     public GameObject videoGameControllerPrefab;
     public GameObject dishesControllerPrefab;
 
+    public Transform leftGameAnchor;
+    public Transform rightGameAnchor;
+
     private Dictionary<MINIGAME, GameObject> minigameControllerPrefabs = new Dictionary<MINIGAME, GameObject>();
     private MinigameController currentController;
 
@@ -49,6 +52,10 @@ public class MinigameManager : Singleton<MinigameManager>
         PlayerMovementManager.GetInstance().DisableMovement();
 
         GameObject minigameControllerPrefab = Instantiate(minigameControllerPrefabs[minigame]);
+
+        Transform parentTransform = cameraPosition == CameraController.POSITION.LEFT ? leftGameAnchor : rightGameAnchor;
+        minigameControllerPrefab.transform.SetParent(parentTransform, false);
+        
         currentController = minigameControllerPrefab.GetComponent<MinigameController>();
         initializing = true;
 
