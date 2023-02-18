@@ -1,18 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ChunkMeta
 {
-    public ChunkMeta(int id, Color color)
+    public ChunkMeta(Color color)
     {
-        this.id = id;
         this.Color = color;
+        this.pointList = new List<Vector2Int>();
     }
-    
-    private int id;
+
     private Color color;
 
-    public int Id { get => id; set => id = value; }
+    private List<Vector2Int> pointList;
+
     public Color Color { get => color; set => color = value; }
+    public List<Vector2Int> PointList { get => pointList; set => pointList = value; }
+
+    public void AddPoint(Vector2Int point) {
+        pointList.Add(point);
+    }
+
+    public void RemovePoint(Vector2Int point) {
+        pointList.Remove(point);
+    }
+
+    public void MergeChunk(ChunkMeta chunk) {
+        pointList = pointList.Concat(chunk.PointList).ToList();
+    }
+
+    public static ChunkMeta GenerateChunk() {
+        return new ChunkMeta(Random.ColorHSV());
+    }
+
+    public void NormalizePoints() {
+
+        int minX = pointList.Min(point => point.x);
+        int minY = pointList.Min(point => point.y);
+
+        List<Vector2Int> normalizedPoints = new List<Vector2Int>();
+
+        foreach(Vector2Int point in pointList) {
+            normalizedPoints.Add(new Vector2Int(point.x - minX, point.y - minY));
+        }
+
+        this.pointList = normalizedPoints;        
+    }
+
+    public Vector2Int GetGridBounds() {
+        return new Vector2Int(pointList.Max(point => point.x) + 1, 
+                              pointList.Max(point => point.y) + 1);
+    }
+
 }

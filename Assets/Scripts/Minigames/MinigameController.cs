@@ -2,30 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MinigameController : MonoBehaviour
+public class MinigameController<T> : MonoBehaviour, ITeardownable
+where T: MinigameController<T>
 {
-    protected MinigameState currentState;
+    protected MinigameState<T> currentState;
 
     public virtual void Start()
     {
-        currentState.Setup();
+        currentState.Setup((T) this);
     }
 
     // Update is called once per frame
     public virtual void Update()
     {
-        currentState.Process();
+        currentState.Process((T) this);
     }
 
     public virtual void FixedUpdate()
     {
-        currentState.FixedProcess();
+        currentState.FixedProcess((T) this);
     }
 
-    public virtual void SetState(MinigameState state)
+    public virtual void SetState(MinigameState<T> state)
     {
-        currentState.Teardown();
+        currentState.Teardown((T) this);
         currentState = state;
-        state.Setup();
+        state.Setup((T) this);
+    }
+
+    public virtual void Teardown() {
+        currentState.Teardown((T) this);
     }
 }

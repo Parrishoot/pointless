@@ -130,8 +130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcee1d3d2867ed04e9df006390eaf308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: 12
   gridManager: {fileID: 6436789615194404715}
+  dishPreb: {fileID: 6752266913865165935, guid: fed44db7b0991e646b86c4fe114a3265, type: 3}
+  dishControllers: []
 --- !u!1 &8736658943168099596
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +159,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8736658943168099596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: -3, z: 0}
+  m_LocalPosition: {x: -2, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -189,5 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae394c72819dd484a8c0bc877318c00f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 2330958653976069996}
+  gridComponent: {fileID: 2330958653976069996}
   gridObjectPrefab: {fileID: 3648498512443284927, guid: 1023ae26d58660543aa91f4bd7618075, type: 3}
+  gridBounds: {x: 8, y: 8}
+  desiredPieceCount: 12

@@ -13,25 +13,18 @@ public class MinigameManager : Singleton<MinigameManager>
     public GameObject videoGameControllerPrefab;
     public GameObject dishesControllerPrefab;
 
+    public GameObject currentController;
+
     public Transform leftGameAnchor;
     public Transform rightGameAnchor;
 
     private Dictionary<MINIGAME, GameObject> minigameControllerPrefabs = new Dictionary<MINIGAME, GameObject>();
-    private MinigameController currentController;
-
-    // This is sloppy but it works!
-    bool initializing = false;
 
     // Start is called before the first frame update
     void Start()
     {
         minigameControllerPrefabs.Add(MINIGAME.VIDEO_GAME, videoGameControllerPrefab);
         minigameControllerPrefabs.Add(MINIGAME.DISHES, dishesControllerPrefab);
-    }
-
-    public void Update()
-    {
-        initializing = false;
     }
 
     public void SwapMinigameState(MINIGAME minigame, CameraController.POSITION cameraPosition)
@@ -51,13 +44,10 @@ public class MinigameManager : Singleton<MinigameManager>
     {
         PlayerMovementManager.GetInstance().DisableMovement();
 
-        GameObject minigameControllerPrefab = Instantiate(minigameControllerPrefabs[minigame]);
+        currentController = Instantiate(minigameControllerPrefabs[minigame]);
 
         Transform parentTransform = cameraPosition == CameraController.POSITION.LEFT ? leftGameAnchor : rightGameAnchor;
-        minigameControllerPrefab.transform.SetParent(parentTransform, false);
-        
-        currentController = minigameControllerPrefab.GetComponent<MinigameController>();
-        initializing = true;
+        currentController.transform.SetParent(parentTransform, false);
 
         CameraController.GetInstance().SetCameraPosition(cameraPosition);
     }
@@ -65,8 +55,8 @@ public class MinigameManager : Singleton<MinigameManager>
     public void EndMinigame()
     {
         // TODO: ACTUALLY DO THIS
-        Destroy(currentController.gameObject);
-        currentController = null;
+        currentController.GetComponent<ITeardownable>().Teardown();
+        Destroy(currentController);
         CameraController.GetInstance().SetCameraPosition(CameraController.POSITION.CENTER);
         PlayerMovementManager.GetInstance().EnableMovement();
     }
