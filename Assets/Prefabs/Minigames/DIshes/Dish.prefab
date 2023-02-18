@@ -44,6 +44,37 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &3621723368989259989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6769049087581346020}
+  m_Layer: 0
+  m_Name: BottomLeftAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6769049087581346020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3621723368989259989}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.25, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6063206861888778599}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6752266913865165935
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,6 +108,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8537373911636788157}
+  - {fileID: 6769049087581346020}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -97,6 +129,7 @@ MonoBehaviour:
   gridBounds: {x: 0, y: 0}
   boxCollider2D: {fileID: 5973983823532331487}
   draggable: {fileID: 4484907489604402802}
+  follower: {fileID: 3608877738377039783}
 --- !u!114 &3608877738377039783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +156,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0}
+  onMouseUpCallback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7582155078064265435}
+        m_TargetAssemblyTypeName: DishController, Assembly-CSharp
+        m_MethodName: Place
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMouseDownCallback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &5973983823532331487
 BoxCollider2D:
   m_ObjectHideFlags: 0

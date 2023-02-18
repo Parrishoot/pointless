@@ -24,7 +24,7 @@ public class DishesMinigameController : MinigameController<DishesMinigameControl
 
     public void SpawnDish(ChunkMeta chunkMeta) {
         DishController dishController = Instantiate(dishPreb, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<DishController>();
-        dishController.Init(chunkMeta);
+        dishController.Init(chunkMeta, gridManager);
 
         dishControllers.Add(dishController);
     }
@@ -34,4 +34,5 @@ public class DishesMinigameController : MinigameController<DishesMinigameControl
             Destroy(dishControllers[i].gameObject);
         }
     }
+
 }

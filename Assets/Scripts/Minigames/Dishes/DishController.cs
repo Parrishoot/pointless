@@ -9,14 +9,19 @@ public class DishController : GridController
 
     public Draggable draggable;
 
+    public Follower follower;
+
     private ChunkMeta chunkMeta;
 
-    public void Init(ChunkMeta chunkMeta) {
+    private GridManager gridManager;
+
+    public void Init(ChunkMeta chunkMeta, GridManager gridManager) {
         
         chunkMeta.NormalizePoints();
         
         this.chunkMeta = chunkMeta;
         this.gridBounds = chunkMeta.GetGridBounds();
+        this.gridManager = gridManager;
 
         boxCollider2D.size = new Vector2(((float) this.gridBounds.x) / 2,
                                          ((float) this.gridBounds.y) / 2);
@@ -31,6 +36,13 @@ public class DishController : GridController
     private void DisplayGrid() {
         foreach(Vector2Int point in chunkMeta.PointList) {
             SetSpace(point.x, convertToGridY(point.y), chunkMeta);
+        }
+    }
+
+    public void Place() {
+        Vector2 placeSpace = gridManager.PlaceDish(transform.position);
+        if(!placeSpace.Equals(INVALID_SPACE)) {
+            follower.SetTarget(placeSpace);
         }
     }
 }

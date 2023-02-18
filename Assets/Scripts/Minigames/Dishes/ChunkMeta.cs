@@ -5,15 +5,23 @@ using System.Linq;
 
 public class ChunkMeta
 {
+    public enum ChunkType {
+        DISH,
+        WALL
+    }
+
     public ChunkMeta(Color color)
     {
         this.Color = color;
         this.pointList = new List<Vector2Int>();
+        this.chunkType = ChunkType.DISH;
     }
 
     private Color color;
 
     private List<Vector2Int> pointList;
+
+    private ChunkType chunkType;
 
     public Color Color { get => color; set => color = value; }
     public List<Vector2Int> PointList { get => pointList; set => pointList = value; }
@@ -51,6 +59,20 @@ public class ChunkMeta
     public Vector2Int GetGridBounds() {
         return new Vector2Int(pointList.Max(point => point.x) + 1, 
                               pointList.Max(point => point.y) + 1);
+    }
+
+    public void SetWall(Color wallColor) {
+        this.color = wallColor;
+        this.chunkType = ChunkType.WALL;
+    }
+
+    public bool IsWall() {
+        return chunkType == ChunkType.WALL;
+    }
+
+    public bool OnEdge(Vector2Int gridBounds) {
+        return pointList.Exists(point => point.x.Equals(0) || point.x.Equals(gridBounds.x - 1) ||
+                                         point.y.Equals(0) || point.y.Equals(gridBounds.y - 1));
     }
 
 }

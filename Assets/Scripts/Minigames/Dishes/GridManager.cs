@@ -5,9 +5,13 @@ using System.Linq;
 
 public class GridManager : GridController
 {
-    private int MAX_CHUNK_WIDTH = 4; 
+    public int MAX_CHUNK_WIDTH = 4;
 
-    public int desiredPieceCount = 12;
+    public int desiredPieceCount = 8;
+
+    public int desiredWallCount = 4;
+
+    public Color wallColor;
 
     private List<ChunkMeta> chunkMetaList;
 
@@ -28,7 +32,8 @@ public class GridManager : GridController
         // Merge those chunks together
         MergeChunks();
 
-        // TODO: Remove x chunks and set them as immovable
+        // Create some walls
+        CreateWalls();
 
         // Show the grid
         DisplayGrid();
@@ -70,17 +75,8 @@ public class GridManager : GridController
             for(int x = 0; x < gridBounds.x; x++) {
 
                 if(currentChunk.PointList.Count >= remainingChunkSize) {
-
                     remainingChunkSize = Mathf.Min(Random.Range(1, MAX_CHUNK_WIDTH));
-
-                    // if(y == 0 || Random.Range(0f, 1f) > MERGE_CHANCE) {
                     currentChunk = GenerateChunk();
-                    // }
-                    // else {
-
-                       // int mergeX = Mathf.Min(x + Random.Range(0, remainingChunkSize - 1), gridSize - 1);
-                       // currentChunk = grid[mergeX, y-1];
-                   // }
                 }
 
                 chunkGrid[x,y] = currentChunk;
@@ -92,7 +88,7 @@ public class GridManager : GridController
     private void MergeChunks() {
 
         // Merge chunks until we've hit the right amount of blocks
-        while(chunkMetaList.Count > desiredPieceCount) {
+        while(chunkMetaList.Count > (desiredPieceCount + desiredWallCount)) {
 
             // Find a random point on the smallest available chunk
             ChunkMeta chunkToMerge = chunkMetaList.OrderBy(x => x.PointList.Count).ToList()[0];
@@ -137,7 +133,38 @@ public class GridManager : GridController
         }
     }
 
+    public void CreateWalls() {
+        
+        List<ChunkMeta> edgeChunks = chunkMetaList.FindAll(chunk => chunk.OnEdge(gridBounds));
+
+        int wallsLeftToCreate = Mathf.Min(desiredWallCount, edgeChunks.Count);
+
+        while(desiredWallCount > 0) {
+
+            int wallIndex = Random.Range(0, edgeChunks.Count);
+            
+            if(!edgeChunks[wallIndex].IsWall()) {
+                desiredWallCount--;
+                edgeChunks[wallIndex].SetWall(wallColor);
+            }
+        }
+    }
+
     public List<ChunkMeta> GetChunks() {
         return chunkMetaList;
+    }
+
+    public Vector2 PlaceDish(Vector2 dishGlobalPosition) {
+
+        Vector2 positionDifference = dishGlobalPosition - new Vector2(transform.position.x, transform.position.y);
+
+        Vector2Int placeSpace = FindClosestGridSpace(positionDifference);
+
+        if(placeSpace == INVALID_SPACE) {
+            return placeSpace;
+        }
+
+        Vector2 cellCenter = gridComponent.GetCellCenterWorld(new Vector3Int(placeSpace.x, placeSpace.y, 0));
+        return cellCenter - new Vector2(gridComponent.cellSize.x / 2, gridComponent.cellSize.y / 2);
     }
 }

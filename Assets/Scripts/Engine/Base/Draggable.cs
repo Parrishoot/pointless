@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Follower))]
 public class Draggable : MonoBehaviour
 {
     public Vector2 offset;
 
+    public UnityEvent onMouseDownCallback;
+
+    public UnityEvent onMouseUpCallback;
+
     private Follower follower;
 
     public void Start() {
         follower = GetComponent<Follower>();
-        follower.enabled = false;
     }
 
     public Vector2 GetMousePosition() {
@@ -19,12 +23,12 @@ public class Draggable : MonoBehaviour
     }
 
     private void OnMouseDown() {
-        follower.enabled = true;
+        onMouseDownCallback.Invoke();
         follower.SetTarget(GetMousePosition() + offset);
     }
 
     private void OnMouseUp() {
-        follower.enabled = false;
+        onMouseUpCallback?.Invoke();
     }
 
     private void OnMouseDrag() {

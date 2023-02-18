@@ -193,4 +193,7 @@ MonoBehaviour:
   gridComponent: {fileID: 2330958653976069996}
   gridObjectPrefab: {fileID: 3648498512443284927, guid: 1023ae26d58660543aa91f4bd7618075, type: 3}
   gridBounds: {x: 8, y: 8}
-  desiredPieceCount: 12
+  MAX_CHUNK_WIDTH: 4
+  desiredPieceCount: 8
+  desiredWallCount: 4
+  wallColor: {r: 0.25490198, g: 0.22745098, b: 0.25882354, a: 1}
