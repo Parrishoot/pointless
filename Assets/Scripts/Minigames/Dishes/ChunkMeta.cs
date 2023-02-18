@@ -25,6 +25,7 @@ public class ChunkMeta
 
     public Color Color { get => color; set => color = value; }
     public List<Vector2Int> PointList { get => pointList; set => pointList = value; }
+    public ChunkType ChunkTypeValue { get => chunkType; set => chunkType = value; }
 
     public void AddPoint(Vector2Int point) {
         pointList.Add(point);
@@ -63,11 +64,11 @@ public class ChunkMeta
 
     public void SetWall(Color wallColor) {
         this.color = wallColor;
-        this.chunkType = ChunkType.WALL;
+        this.ChunkTypeValue = ChunkType.WALL;
     }
 
     public bool IsWall() {
-        return chunkType == ChunkType.WALL;
+        return this.ChunkTypeValue == ChunkType.WALL;
     }
 
     public bool OnEdge(Vector2Int gridBounds) {

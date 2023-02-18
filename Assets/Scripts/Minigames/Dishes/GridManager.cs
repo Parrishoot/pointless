@@ -11,6 +11,8 @@ public class GridManager : GridController
 
     public int desiredWallCount = 4;
 
+    public Color openColor;
+
     public Color wallColor;
 
     private List<ChunkMeta> chunkMetaList;
@@ -34,9 +36,16 @@ public class GridManager : GridController
 
         // Create some walls
         CreateWalls();
+    }
 
-        // Show the grid
-        DisplayGrid();
+    public void FilterGrid() {
+        for(int x = 0; x < gridBounds.x; x++) {
+            for(int y = 0; y < gridBounds.y; y++) {
+                if(!chunkGrid[x,y].IsWall()) {
+                    chunkGrid[x,y] = null;
+                }
+            }
+        }
     }
 
     private ChunkMeta GenerateChunk() {
@@ -56,10 +65,11 @@ public class GridManager : GridController
         chunkMetaList.Remove(eatenChunk);
     }
 
-    private void DisplayGrid() {
+    public void DisplayGrid() {
         for(int x = 0; x < gridBounds.x; x++) {
             for(int y = 0; y < gridBounds.y; y++) {
-                SetSpace(x, convertToGridY(y), chunkGrid[x, y]);
+                Color spaceColor = chunkGrid[x,y] == null ? openColor : wallColor;
+                SetSpace(x, convertToGridY(y), spaceColor);
             }
         }
     }
@@ -152,6 +162,10 @@ public class GridManager : GridController
 
     public List<ChunkMeta> GetChunks() {
         return chunkMetaList;
+    }
+
+    public List<ChunkMeta> GetChunksOfType(ChunkMeta.ChunkType chunkType) {
+        return chunkMetaList.FindAll(chunk => chunk.ChunkTypeValue == chunkType);
     }
 
     public Vector2 PlaceDish(Vector2 dishGlobalPosition) {

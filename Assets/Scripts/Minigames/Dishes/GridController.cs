@@ -16,11 +16,11 @@ public class GridController : MonoBehaviour
         gridComponent.transform.localPosition = new Vector2(-gridBounds.x / 4, -gridBounds.y / 4);
     }
 
-    public void SetSpace(int x, int y, ChunkMeta chunkMeta) {
+    public void SetSpace(int x, int y, Color color) {
             GameObject newGameObject = Instantiate(gridObjectPrefab);
             newGameObject.transform.SetParent(gameObject.transform, false);
             newGameObject.transform.localPosition = gridComponent.GetCellCenterLocal(new Vector3Int(x, y, 0));
-            newGameObject.GetComponent<SpriteRenderer>().color = chunkMeta.Color;
+            newGameObject.GetComponent<SpriteRenderer>().color = color;
     }
 
     public int convertToGridY(int y) {
@@ -36,14 +36,12 @@ public class GridController : MonoBehaviour
 
     public Vector2Int FindClosestGridSpace(Vector2 position) {
 
-        if(!WithinGridBounds(position)) {
+        Vector2 roundedPosition = new Vector2(Mathf.RoundToInt(position.x * (1 / gridComponent.cellSize.x)) / (1 / gridComponent.cellSize.x),
+                                              Mathf.RoundToInt(position.y * (1 / gridComponent.cellSize.y)) / (1 / gridComponent.cellSize.y));
+
+        if(!WithinGridBounds(roundedPosition)) {
             return INVALID_SPACE;
         }
-
-        // TODO: Fix this logic
-        // Vector2 roundedPosition = new Vector2(Mathf.RoundToInt(position.x * (1 / gridComponent.cellSize.x)) / (1 / gridComponent.cellSize.x),
-        //                                       Mathf.RoundToInt(position.y * (1 / gridComponent.cellSize.y)) / (1 / gridComponent.cellSize.y));
-        Vector2 roundedPosition = position;
 
         return new Vector2Int((int)(roundedPosition.x / gridComponent.cellSize.x),
                               (int)(roundedPosition.y / gridComponent.cellSize.y));

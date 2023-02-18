@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DishController : GridController
+public class DishController : GridController, ISpawnable
 {
 
     public BoxCollider2D boxCollider2D;
@@ -28,14 +28,14 @@ public class DishController : GridController
         boxCollider2D.offset = new Vector2(((float) this.gridBounds.x) / 4,
                                            ((float) this.gridBounds.y) / 4);
 
-        draggable.SetOffset(-boxCollider2D.offset.x, -boxCollider2D.offset.y);
+        draggable.SetOffset(-GetOffset().x, -GetOffset().y);
 
         DisplayGrid();
     }
 
     private void DisplayGrid() {
         foreach(Vector2Int point in chunkMeta.PointList) {
-            SetSpace(point.x, convertToGridY(point.y), chunkMeta);
+            SetSpace(point.x, convertToGridY(point.y), chunkMeta.Color);
         }
     }
 
@@ -44,5 +44,9 @@ public class DishController : GridController
         if(!placeSpace.Equals(INVALID_SPACE)) {
             follower.SetTarget(placeSpace);
         }
+    }
+
+    public Vector2 GetOffset() {
+        return new Vector2(boxCollider2D.offset.x, boxCollider2D.offset.y);
     }
 }

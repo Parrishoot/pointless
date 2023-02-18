@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridComponent: {fileID: 2494384501374634383}
-  gridObjectPrefab: {fileID: 3648498512443284927, guid: 1023ae26d58660543aa91f4bd7618075, type: 3}
+  gridObjectPrefab: {fileID: 8344441903512638092, guid: 8fb490b12c68dd04d85e92da6f46df74, type: 3}
   gridBounds: {x: 0, y: 0}
   boxCollider2D: {fileID: 5973983823532331487}
   draggable: {fileID: 4484907489604402802}
@@ -156,6 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0}
+  onMouseDownCallback:
+    m_PersistentCalls:
+      m_Calls: []
   onMouseUpCallback:
     m_PersistentCalls:
       m_Calls:
@@ -171,9 +174,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onMouseDownCallback:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!61 &5973983823532331487
 BoxCollider2D:
   m_ObjectHideFlags: 0

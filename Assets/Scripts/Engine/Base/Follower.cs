@@ -8,18 +8,22 @@ public class Follower : MonoBehaviour
 
     private Vector2 targetPosition;
 
+    private bool beginFollow = false;
+
     public void SetTarget(Transform transform) {
+        beginFollow = true;
         targetPosition = transform.position;
     }
 
     public void SetTarget(Vector2 newPositon) {
+        beginFollow = true;
         targetPosition = newPositon;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(targetPosition != null) {
+        if(beginFollow) {
             float currentX = transform.position.x;
             float currentY = transform.position.y;
 
