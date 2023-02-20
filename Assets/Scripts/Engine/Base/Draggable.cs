@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,8 +16,8 @@ public class Draggable : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    private void OnMouseDown() {
-        onMouseDownCallback.Invoke();
+    private void OnMouseDown() {d
+        onMouseDownCallback?.Invoke();
         follower.SetTarget(GetMousePosition() + offset);
     }
 
@@ -27,6 +26,7 @@ public class Draggable : MonoBehaviour
     }
 
     private void OnMouseDrag() {
+        Debug.Log(GetMousePosition());
         follower.SetTarget(GetMousePosition() + offset);
     }
 
