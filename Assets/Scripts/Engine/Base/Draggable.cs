@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Follower))]
 public class Draggable : MonoBehaviour
 {
     public Vector2 offset;
@@ -12,11 +11,7 @@ public class Draggable : MonoBehaviour
 
     public UnityEvent onMouseUpCallback;
 
-    private Follower follower;
-
-    public void Start() {
-        follower = GetComponent<Follower>();
-    }
+    public Follower follower;
 
     public Vector2 GetMousePosition() {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);

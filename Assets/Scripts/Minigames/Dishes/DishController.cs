@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class DishController : GridController, ISpawnable
 {
 
-    public BoxCollider2D boxCollider2D;
+    public Tilemap tileMap;
+
+    public TileBase dishTileRule;
+
+    public TilemapRenderer tilemapRenderer;
 
     public Draggable draggable;
 
@@ -18,15 +23,12 @@ public class DishController : GridController, ISpawnable
     public void Init(ChunkMeta chunkMeta, GridManager gridManager) {
         
         chunkMeta.NormalizePoints();
+
+        tileMap.ClearAllTiles();
         
         this.chunkMeta = chunkMeta;
         this.gridBounds = chunkMeta.GetGridBounds();
         this.gridManager = gridManager;
-
-        boxCollider2D.size = new Vector2(((float) this.gridBounds.x) / 2,
-                                         ((float) this.gridBounds.y) / 2);
-        boxCollider2D.offset = new Vector2(((float) this.gridBounds.x) / 4,
-                                           ((float) this.gridBounds.y) / 4);
 
         draggable.SetOffset(-GetOffset().x, -GetOffset().y);
 
@@ -35,11 +37,12 @@ public class DishController : GridController, ISpawnable
 
     private void DisplayGrid() {
         foreach(Vector2Int point in chunkMeta.PointList) {
-            SetSpace(point.x, convertToGridY(point.y), chunkMeta.Color);
+            tileMap.SetTile(new Vector3Int(point.x, convertToGridY(point.y), 0), dishTileRule);
         }
     }
 
     public void Place() {
+        ResetOrder();
         Vector2 placeSpace = gridManager.PlaceDish(transform.position);
         if(!placeSpace.Equals(INVALID_SPACE)) {
             follower.SetTarget(placeSpace);
@@ -47,6 +50,15 @@ public class DishController : GridController, ISpawnable
     }
 
     public Vector2 GetOffset() {
-        return new Vector2(boxCollider2D.offset.x, boxCollider2D.offset.y);
+        return new Vector2(((float) this.gridBounds.x) / 4,
+                           ((float) this.gridBounds.y) / 4);
+    }
+
+    public void BringToFront() {
+        tilemapRenderer.sortingOrder += 1;
+    }
+
+    public void ResetOrder() {
+        tilemapRenderer.sortingOrder -= 1;
     }
 }
