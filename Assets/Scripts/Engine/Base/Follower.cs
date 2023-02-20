@@ -30,9 +30,9 @@ public class Follower : MonoBehaviour
             float targetX = targetPosition.x;
             float targetY = targetPosition.y;
 
-            gameObject.transform.Translate(new Vector3((targetX - currentX) * followSpeed * Time.deltaTime,
-                                                    (targetY - currentY) * followSpeed * Time.deltaTime,
-                                                        0));
+            gameObject.transform.position += (new Vector3((targetX - currentX) * followSpeed * Time.deltaTime,
+                                                          (targetY - currentY) * followSpeed * Time.deltaTime,
+                                                           0));
         }
 
     }

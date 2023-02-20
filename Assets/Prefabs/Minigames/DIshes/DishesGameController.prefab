@@ -692,9 +692,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridComponent: {fileID: 2330958653976069996}
   gridObjectPrefab: {fileID: 3648498512443284927, guid: 1023ae26d58660543aa91f4bd7618075, type: 3}
-  gridBounds: {x: 8, y: 8}
+  gridBounds: {x: 6, y: 6}
   MAX_CHUNK_WIDTH: 4
-  desiredPieceCount: 5
+  desiredPieceCount: 4
   desiredWallCount: 0
   openColor: {r: 0.12156863, g: 0.12156863, b: 0.16078432, a: 1}
   wallColor: {r: 0.25490198, g: 0.22745098, b: 0.25882354, a: 1}

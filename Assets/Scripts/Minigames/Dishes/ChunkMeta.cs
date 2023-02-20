@@ -71,6 +71,24 @@ public class ChunkMeta
         return this.ChunkTypeValue == ChunkType.WALL;
     }
 
+    public void RotateClockwise() {
+        Vector2Int gridBounds = GetGridBounds();
+        List<Vector2Int> rotatedPoints = new List<Vector2Int>();
+        foreach(Vector2Int point in pointList) {
+            rotatedPoints.Add(new Vector2Int(gridBounds.y - 1 - point.y, point.x));
+        }
+        this.pointList = rotatedPoints;
+    }
+
+    public void RotateCounterClockwise() {
+        Vector2Int gridBounds = GetGridBounds();
+        List<Vector2Int> rotatedPoints = new List<Vector2Int>();
+        foreach(Vector2Int point in pointList) {
+            rotatedPoints.Add(new Vector2Int(point.y, gridBounds.x - 1 - point.x));
+        }
+        this.pointList = rotatedPoints;
+    }
+
     public bool OnEdge(Vector2Int gridBounds) {
         return pointList.Exists(point => point.x.Equals(0) || point.x.Equals(gridBounds.x - 1) ||
                                          point.y.Equals(0) || point.y.Equals(gridBounds.y - 1));

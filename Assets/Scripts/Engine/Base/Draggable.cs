@@ -16,7 +16,7 @@ public class Draggable : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    private void OnMouseDown() {d
+    private void OnMouseDown() {
         onMouseDownCallback?.Invoke();
         follower.SetTarget(GetMousePosition() + offset);
     }

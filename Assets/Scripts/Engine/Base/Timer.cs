@@ -7,6 +7,8 @@ public class Timer : MonoBehaviour
 
     private float currentWaitTime = 0;
 
+    private float totalWaitTime = 0f;
+
     public bool IsFinished() {
         return currentWaitTime <= 0;
     }
@@ -20,6 +22,11 @@ public class Timer : MonoBehaviour
     }
 
     public void SetTimer(float waitTime) {
+        totalWaitTime = waitTime;
         currentWaitTime = waitTime;
+    }
+
+    public float GetCompletionPercentage() {
+        return (totalWaitTime - currentWaitTime) / totalWaitTime;
     }
 }
