@@ -33,4 +33,8 @@ public class Rotator : MonoBehaviour
             transform.eulerAngles = Vector3.Lerp(beginningRotation, targetRotation, rotationCurve.Evaluate(timer.GetCompletionPercentage()));
         }
     }
+
+    public Vector3 GetTargetRotation() {
+        return targetRotation;
+    }
 }

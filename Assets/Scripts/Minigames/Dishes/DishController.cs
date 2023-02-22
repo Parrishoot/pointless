@@ -20,6 +20,8 @@ public class DishController : GridController, ISpawnable
 
     public Rotator rotator;
 
+    public Transform placePoint;
+
     private ChunkMeta chunkMeta;
 
     private GridManager gridManager;
@@ -46,16 +48,37 @@ public class DishController : GridController, ISpawnable
             chunkMeta.RotateClockwise();
         }
 
-        ResetDish();
+        tileMap.transform.localPosition = new Vector2(-GetOffset().x, GetOffset().y);
+
+        ResetPlacePoint();
 
         DisplayGrid();
     }
 
-    private void ResetDish() { 
-        this.gridBounds = chunkMeta.GetGridBounds();
-        tileMap.transform.localPosition = new Vector2(-GetOffset().x, -GetOffset().y);
-    }
+    private void ResetPlacePoint(){
 
+        int targetRotation = (int) rotator.GetTargetRotation().z;
+        if(targetRotation < 0) {
+            targetRotation = 360 - Mathf.Abs(targetRotation % 360);
+        }
+        targetRotation = targetRotation % 360;
+
+        switch(targetRotation) {
+            case 0:
+                placePoint.transform.localPosition = new Vector2(-GetOffset().x, -GetOffset().y);
+                break;
+            case 90:
+                placePoint.transform.localPosition = new Vector2(-GetOffset().y, GetOffset().x);
+                break;
+            case 180:
+                placePoint.transform.localPosition = new Vector2(GetOffset().x, GetOffset().y);
+                break;
+            case 270:
+                placePoint.transform.localPosition = new Vector2(GetOffset().y, -GetOffset().x);
+                break;
+        }
+
+    }
     private void DisplayGrid() {
 
         tileMap.ClearAllTiles();
@@ -68,27 +91,28 @@ public class DishController : GridController, ISpawnable
     private void RotateClockwise() {
         chunkMeta.RotateClockwise();
         rotator.BeginRotation(new Vector3(0, 0, 90), rotateTime);
-        ResetDish();
+        ResetPlacePoint();
     }
 
     private void RotateCounterClockwise() {
         chunkMeta.RotateCounterClockwise();
         rotator.BeginRotation(new Vector3(0, 0, -90), rotateTime);
-        ResetDish();
+        ResetPlacePoint();
     }
 
     public void Place() {
         held = false;
         ResetOrder();
-        Vector2 placeSpace = gridManager.PlaceDish(tileMap.transform.position);
+        Vector2 placeSpace = gridManager.PlaceDish(placePoint.transform.position);
         if(!placeSpace.Equals(INVALID_SPACE)) {
-            follower.SetTarget(placeSpace + GetOffset());
+            follower.SetTarget(placeSpace + (Vector2) (transform.position - placePoint.transform.position));
         }
     }
 
     public Vector2 GetOffset() {
-        return new Vector2(((float) this.gridBounds.x) / 4,
-                           ((float) this.gridBounds.y) / 4);
+        Vector2 dishGridBounds = this.chunkMeta.GetGridBounds();
+        return new Vector2(((float) dishGridBounds.x / 2) * gridComponent.cellSize.x,
+                           ((float) dishGridBounds.y / 2) * gridComponent.cellSize.y);
     }
 
     public void Hold() {

@@ -36,10 +36,6 @@ public class Spawner : MonoBehaviour
 
             GameObject spawnedObject = Instantiate(spawnPrefab, position, Quaternion.identity);
             ISpawnable spawnable = spawnedObject.GetComponent<ISpawnable>();
-
-            if(spawnable != null) {
-                spawnedObject.transform.Translate(spawnable.GetOffset());
-            }
             if(parent != null) {
                 spawnedObject.transform.SetParent(parent.transform, false);    
             }

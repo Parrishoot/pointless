@@ -26,7 +26,6 @@ public class Draggable : MonoBehaviour
     }
 
     private void OnMouseDrag() {
-        Debug.Log(GetMousePosition());
         follower.SetTarget(GetMousePosition() + offset);
     }
 
