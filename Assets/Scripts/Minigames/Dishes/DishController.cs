@@ -12,7 +12,7 @@ public class DishController : GridController, ISpawnable
 
     public TilemapRenderer tilemapRenderer;
 
-    public Draggable draggable;
+    public DishSnapBackController dishSnapBackController;
 
     public Follower follower;
 
@@ -48,7 +48,7 @@ public class DishController : GridController, ISpawnable
             chunkMeta.RotateClockwise();
         }
 
-        tileMap.transform.localPosition = new Vector2(-GetOffset().x, GetOffset().y);
+        tileMap.transform.localPosition = new Vector2(-GetOffset().x, -GetOffset().y);
 
         ResetPlacePoint();
 
@@ -84,7 +84,7 @@ public class DishController : GridController, ISpawnable
         tileMap.ClearAllTiles();
 
         foreach(Vector2Int point in chunkMeta.PointList) {
-            tileMap.SetTile(new Vector3Int(point.x, convertToGridY(point.y), 0), dishTileRule);
+            tileMap.SetTile(new Vector3Int(point.x, point.y, 0), dishTileRule);
         }
     }
 
@@ -103,9 +103,12 @@ public class DishController : GridController, ISpawnable
     public void Place() {
         held = false;
         ResetOrder();
-        Vector2 placeSpace = gridManager.PlaceDish(placePoint.transform.position);
+        Vector2 placeSpace = gridManager.PlaceDish(chunkMeta, placePoint.transform.position);
         if(!placeSpace.Equals(INVALID_SPACE)) {
             follower.SetTarget(placeSpace + (Vector2) (transform.position - placePoint.transform.position));
+        }
+        else if(dishSnapBackController.TouchingGrid()) {
+            follower.SetTarget(dishSnapBackController.GetSnapbackLocation() + (Vector2) (transform.position - dishSnapBackController.transform.position));
         }
     }
 
@@ -117,6 +120,7 @@ public class DishController : GridController, ISpawnable
 
     public void Hold() {
         held = true;
+        gridManager.RemoveDish(this.chunkMeta);
         tilemapRenderer.sortingOrder += 1;
 
     }

@@ -11,13 +11,15 @@ public class GridManager : GridController
 
     public int desiredWallCount = 4;
 
+    public BoxCollider2D gridCollider;
+
     public Color openColor;
 
     public Color wallColor;
 
     private List<ChunkMeta> chunkMetaList;
 
-    private ChunkMeta[,] chunkGrid;
+    public ChunkMeta[,] chunkGrid;
 
     public void Start() {
         InitPosition();
@@ -36,6 +38,10 @@ public class GridManager : GridController
 
         // Create some walls
         CreateWalls();
+
+        gridCollider.size = new Vector2(this.gridBounds.x * gridComponent.cellSize.x,
+                                        this.gridBounds.y * gridComponent.cellSize.y);
+        gridCollider.offset = gridCollider.size / 2;
     }
 
     public void FilterGrid() {
@@ -66,8 +72,8 @@ public class GridManager : GridController
     }
 
     public void DisplayGrid() {
-        for(int x = 0; x < gridBounds.x; x++) {
-            for(int y = 0; y < gridBounds.y; y++) {
+        for(int y = 0; y < gridBounds.y; y++) {
+            for(int x = 0; x < gridBounds.x; x++) {
                 Color spaceColor = chunkGrid[x,y] == null ? openColor : wallColor;
                 SetSpace(x, convertToGridY(y), spaceColor);
             }
@@ -168,7 +174,7 @@ public class GridManager : GridController
         return chunkMetaList.FindAll(chunk => chunk.ChunkTypeValue == chunkType);
     }
 
-    public Vector2 PlaceDish(Vector2 dishGlobalPosition) {
+    public Vector2 PlaceDish(ChunkMeta chunkMeta, Vector2 dishGlobalPosition) {
 
         Vector2 positionDifference = dishGlobalPosition - new Vector2(transform.position.x, transform.position.y);
 
@@ -178,7 +184,33 @@ public class GridManager : GridController
             return placeSpace;
         }
 
+        bool clashingPoints = chunkMeta.PointList.Exists(point => !IsValidSpace(placeSpace.x + point.x, placeSpace.y + point.y));
+        List<Vector2Int> clashingPointsList = chunkMeta.PointList.FindAll(point => !IsValidSpace(placeSpace.x + point.x, placeSpace.y + point.y));
+        if(clashingPoints) {
+            return INVALID_SPACE;
+        }
+
+        foreach(Vector2Int point in chunkMeta.PointList) {
+            chunkGrid[placeSpace.x + point.x, placeSpace.y + point.y] = chunkMeta;
+        }
+
         Vector2 cellCenter = gridComponent.GetCellCenterWorld(new Vector3Int(placeSpace.x, placeSpace.y, 0));
         return cellCenter - new Vector2(gridComponent.cellSize.x / 2, gridComponent.cellSize.y / 2);
+    }
+
+    public void RemoveDish(ChunkMeta chunkMeta) {
+        for(int y = 0; y < gridBounds.x; y++) {
+            for(int x = 0; x < gridBounds.x; x++) {
+                if(chunkGrid[x,y] != null && chunkGrid[x,y] == chunkMeta) {
+                    chunkGrid[x,y] = null;
+                }
+            }
+        }
+    }
+
+    private bool IsValidSpace(int x, int y) {
+        return x < this.gridBounds.x &&
+               y < this.gridBounds.y &&
+               chunkGrid[x,y] == null;
     }
 }
