@@ -75,7 +75,7 @@ public class GridManager : GridController
         for(int y = 0; y < gridBounds.y; y++) {
             for(int x = 0; x < gridBounds.x; x++) {
                 Color spaceColor = chunkGrid[x,y] == null ? openColor : wallColor;
-                SetSpace(x, convertToGridY(y), spaceColor);
+                SetSpace(x, y, spaceColor);
             }
         }
     }
@@ -199,7 +199,7 @@ public class GridManager : GridController
     }
 
     public void RemoveDish(ChunkMeta chunkMeta) {
-        for(int y = 0; y < gridBounds.x; y++) {
+        for(int y = 0; y < gridBounds.y; y++) {
             for(int x = 0; x < gridBounds.x; x++) {
                 if(chunkGrid[x,y] != null && chunkGrid[x,y] == chunkMeta) {
                     chunkGrid[x,y] = null;
@@ -212,5 +212,17 @@ public class GridManager : GridController
         return x < this.gridBounds.x &&
                y < this.gridBounds.y &&
                chunkGrid[x,y] == null;
+    }
+
+    public bool Solved() {
+        for(int y = 0; y < gridBounds.y; y++) {
+            for(int x = 0; x < gridBounds.x; x++) {
+                if(chunkGrid == null || chunkGrid[x,y] == null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

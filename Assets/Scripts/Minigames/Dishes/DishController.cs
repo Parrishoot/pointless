@@ -30,10 +30,10 @@ public class DishController : GridController, ISpawnable
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.R) && held) {
-            RotateCounterClockwise();
+            RotateClockwise();
         }
         else if(Input.GetKeyDown(KeyCode.T) && held) {
-            RotateClockwise();
+            RotateCounterClockwise();
         }
     }
 

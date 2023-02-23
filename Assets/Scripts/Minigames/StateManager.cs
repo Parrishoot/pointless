@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MinigameController<T> : MonoBehaviour, ITeardownable
-where T: MinigameController<T>
+public abstract class StateManager<T> : MonoBehaviour
+where T: StateManager<T>
 {
     protected MinigameState<T> currentState;
 
@@ -32,5 +32,6 @@ where T: MinigameController<T>
 
     public virtual void Teardown() {
         currentState.Teardown((T) this);
+        Destroy(gameObject);
     }
 }

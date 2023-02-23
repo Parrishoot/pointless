@@ -13,7 +13,7 @@ public class MinigameManager : Singleton<MinigameManager>
     public GameObject videoGameControllerPrefab;
     public GameObject dishesControllerPrefab;
 
-    public GameObject currentController;
+    public IMinigameController currentController;
 
     public Transform leftGameAnchor;
     public Transform rightGameAnchor;
@@ -40,14 +40,22 @@ public class MinigameManager : Singleton<MinigameManager>
         
     }
 
+    void Update() {
+        if(InProgress() && currentController.IsFinished()) {
+            EndMinigame();
+        }
+    }
+
     public void BeginMinigame(MINIGAME minigame, CameraController.POSITION cameraPosition)
     {
         PlayerMovementManager.GetInstance().DisableMovement();
 
-        currentController = Instantiate(minigameControllerPrefabs[minigame]);
+        GameObject currentControllerObject = Instantiate(minigameControllerPrefabs[minigame]);
 
         Transform parentTransform = cameraPosition == CameraController.POSITION.LEFT ? leftGameAnchor : rightGameAnchor;
-        currentController.transform.SetParent(parentTransform, false);
+        currentControllerObject.transform.SetParent(parentTransform, false);
+
+        currentController = currentControllerObject.GetComponent<IMinigameController>();
 
         CameraController.GetInstance().SetCameraPosition(cameraPosition);
     }
@@ -55,8 +63,8 @@ public class MinigameManager : Singleton<MinigameManager>
     public void EndMinigame()
     {
         // TODO: ACTUALLY DO THIS
-        currentController.GetComponent<ITeardownable>().Teardown();
-        Destroy(currentController);
+        currentController.Teardown();
+        currentController = null;
         CameraController.GetInstance().SetCameraPosition(CameraController.POSITION.CENTER);
         PlayerMovementManager.GetInstance().EnableMovement();
     }

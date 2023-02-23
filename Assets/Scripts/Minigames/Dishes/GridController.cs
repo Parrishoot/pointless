@@ -13,7 +13,8 @@ public class GridController : MonoBehaviour
     public static Vector2Int INVALID_SPACE = new Vector2Int(-1, -1);
 
     public void InitPosition() {
-        gridComponent.transform.localPosition = new Vector2(-gridBounds.x / 4, -gridBounds.y / 4);
+        gridComponent.transform.localPosition = new Vector2((-gridBounds.x / 2) * gridComponent.cellSize.x,
+                                                            transform.localPosition.y);
     }
 
     public void SetSpace(int x, int y, Color color) {

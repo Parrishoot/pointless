@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DishesMinigameController : MinigameController<DishesMinigameController>
+public class DishesMinigameController : MonoBehaviour, IMinigameController
 {
     
     public GridManager gridManager;
-
-    public DishesGameState debugState;
 
     public GameObject dishPreb;
 
@@ -15,19 +13,32 @@ public class DishesMinigameController : MinigameController<DishesMinigameControl
 
     public Spawner dishSpawner;
 
-    public override void Start()
+    public bool IsFinished()
     {
-        debugState = new DishesGameState();
-
-        currentState = debugState;
-
-        base.Start();
+        return gridManager.Solved();
     }
 
-    public override void Teardown() {
+    public void Start()
+    {
+        gridManager.InitGrid();
+
+        List<ChunkMeta> dishesToSpawn = gridManager.GetChunksOfType(ChunkMeta.ChunkType.DISH);
+        List<GameObject> dishControllerObjects = dishSpawner.SpawnWithinBounds(gameObject, dishesToSpawn.Count);
+
+        for(int i = 0; i < dishesToSpawn.Count; i++) {
+            DishController newDishController = dishControllerObjects[i].GetComponent<DishController>();
+            newDishController.Init(dishesToSpawn[i], gridManager);
+        }
+
+        gridManager.FilterGrid();
+        gridManager.DisplayGrid();
+    }
+
+    public void Teardown() {
         for (var i = 0; i < dishControllers.Count; i++) {
             Destroy(dishControllers[i].gameObject);
         }
+        Destroy(gameObject);
     }
 
 }

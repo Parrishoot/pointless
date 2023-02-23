@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MinigameState<T>
-    where T : MinigameController<T>
+    where T : StateManager<T>
 {
    public virtual void Setup(T controller)
     {
