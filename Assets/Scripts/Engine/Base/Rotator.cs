@@ -29,7 +29,6 @@ public class Rotator : MonoBehaviour
 
     public void Update() {
         if(!timer.IsFinished()) {
-            Debug.Log("Rotating!");
             transform.eulerAngles = Vector3.Lerp(beginningRotation, targetRotation, rotationCurve.Evaluate(timer.GetCompletionPercentage()));
         }
         else if(transform.eulerAngles != targetRotation) {

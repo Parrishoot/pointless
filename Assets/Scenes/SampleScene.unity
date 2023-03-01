@@ -7367,7 +7367,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000e1989571a504dacebbba38ac13bfdeda67ec75e1ef2e4ea4
+  m_ApplyToSortingLayers: 00000000e1989571a504dacebbba38ac13bfdeda67ec75e17708dc1b17dea042e7f20321afdaf6f9d1080812ef2e4ea4
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -8871,7 +8871,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoGameControllerPrefab: {fileID: 7897181083736206876, guid: 0588fc7852b8e954280c4528f819741d, type: 3}
   dishesControllerPrefab: {fileID: 7292931784114750156, guid: a29bbec968fcc204fa558f4e835247df, type: 3}
-  currentController: {fileID: 0}
   leftGameAnchor: {fileID: 2090170632}
   rightGameAnchor: {fileID: 2085437890}
 --- !u!1 &1151784374

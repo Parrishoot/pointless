@@ -17,11 +17,10 @@ public class GridController : MonoBehaviour
                                                             transform.localPosition.y);
     }
 
-    public void SetSpace(int x, int y, Color color) {
+    public void SetSpace(int x, int y) {
             GameObject newGameObject = Instantiate(gridObjectPrefab);
             newGameObject.transform.SetParent(gameObject.transform, false);
             newGameObject.transform.localPosition = gridComponent.GetCellCenterLocal(new Vector3Int(x, y, 0));
-            newGameObject.GetComponent<SpriteRenderer>().color = color;
     }
 
     public int convertToGridY(int y) {

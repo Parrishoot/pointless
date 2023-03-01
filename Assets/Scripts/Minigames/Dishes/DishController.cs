@@ -128,4 +128,10 @@ public class DishController : GridController, ISpawnable
     public void ResetOrder() {
         tilemapRenderer.sortingOrder -= 1;
     }
+
+    public void BeginEndTransition(Transform newParent) {
+        transform.SetParent(newParent, true);
+        follower.enabled = false;
+        tilemapRenderer.sortingLayerName = "Dishes Underneath";
+    }
 }

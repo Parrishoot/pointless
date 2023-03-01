@@ -22,7 +22,7 @@ public class GridManager : GridController
     public ChunkMeta[,] chunkGrid;
 
     public void Start() {
-        InitPosition();
+        // InitPosition();
     }
 
     public void InitGrid() {
@@ -74,8 +74,7 @@ public class GridManager : GridController
     public void DisplayGrid() {
         for(int y = 0; y < gridBounds.y; y++) {
             for(int x = 0; x < gridBounds.x; x++) {
-                Color spaceColor = chunkGrid[x,y] == null ? openColor : wallColor;
-                SetSpace(x, y, spaceColor);
+                SetSpace(x, y);
             }
         }
     }
