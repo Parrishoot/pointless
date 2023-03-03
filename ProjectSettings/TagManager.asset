@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - DishGrid
+  - VideoGameWorldCanvas
   layers:
   - Default
   - TransparentFX
